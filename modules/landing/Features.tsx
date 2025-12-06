@@ -17,7 +17,7 @@ const features: FeatureItem[] = [
   },
   {
     id: '3',
-    title: 'Graphviz_Viz.bat',
+    title: 'Mermaid_JS.js',
     description: 'Engine visualisasi untuk menggambar Mindmap Flowchart. Memetakan alur aplikasi secara otomatis berdasarkan skenario.',
   },
   {
@@ -29,12 +29,11 @@ const features: FeatureItem[] = [
 
 export const Features: React.FC = () => {
   return (
-    <section id="features" className="bg-dots py-16 md:py-24 border-b-4 border-black scroll-mt-20">
+    <section id="features" className="py-16 md:py-24 bg-dots bg-gray-100 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="font-sans font-black text-4xl md:text-5xl mb-12 relative inline-block">
-          Dapur Pacu (Tech Stack)
-          <span className="absolute -bottom-2 left-0 w-full h-1 bg-black"></span>
-        </h2>
+        <div className="text-center mb-12">
+          <h2 className="font-sans font-black text-4xl md:text-5xl mb-4">Dapur Pacu (Tech Stack)</h2>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {features.map((feature, idx) => (
@@ -43,7 +42,7 @@ export const Features: React.FC = () => {
               title={feature.title} 
               date={`STACK-0${idx + 1}`}
               noPadding={!!feature.imageUrl}
-              className="group transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-retro-xl"
+              className="group transition-all duration-300 ease-in-out hover:-translate-y-2 shadow-retro-lg hover:shadow-retro-xl"
             >
               {feature.imageUrl && (
                  <div className="w-full h-48 border-b-2 border-black overflow-hidden relative">
