@@ -6,6 +6,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./modules/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -14,14 +15,15 @@ export default {
       },
       colors: {
         'retro-bg': '#f0f0f0',
+        'retro-dark-bg': '#0a0a0a',
         'retro-border': '#000000',
       },
       boxShadow: {
-        'retro-sm': '2px 2px 0px 0px rgba(0,0,0,1)',
-        'retro': '4px 4px 0px 0px rgba(0,0,0,1)',
-        'retro-lg': '6px 6px 0px 0px rgba(0,0,0,1)',
-        'retro-xl': '8px 8px 0px 0px rgba(0,0,0,1)',
-        'retro-gray': '4px 4px 0px 0px rgba(128,128,128,1)',
+        'retro-sm': '2px 2px 0px 0px var(--retro-shadow)',
+        'retro': '4px 4px 0px 0px var(--retro-shadow)',
+        'retro-lg': '6px 6px 0px 0px var(--retro-shadow)',
+        'retro-xl': '8px 8px 0px 0px var(--retro-shadow)',
+        'retro-gray': '4px 4px 0px 0px var(--retro-shadow-gray)',
       },
       animation: {
         blob: "blob 7s infinite",

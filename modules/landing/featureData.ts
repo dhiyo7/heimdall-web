@@ -78,10 +78,10 @@ export const syntaxHighlight = (line: string) => {
   const regex = new RegExp(`(#.*)|(["“].*?["”])|(\\{.*?\\})|\\b(${keywordPattern})\\b`, 'g');
 
   return line.replace(regex, (match, comment, string, variable, keyword) => {
-    if (comment) return `<span class="text-gray-500 italic">${match}</span>`;
-    if (string) return `<span class="text-green-600 font-bold">${match}</span>`;
-    if (variable) return `<span class="text-orange-600 font-bold">${match}</span>`;
-    if (keyword) return `<span class="text-blue-600 font-black">${match}</span>`;
+    if (comment) return `<span class="text-gray-500 dark:text-gray-400 italic">${match}</span>`;
+    if (string) return `<span class="text-green-600 dark:text-green-400 font-bold">${match}</span>`;
+    if (variable) return `<span class="text-orange-600 dark:text-orange-400 font-bold">${match}</span>`;
+    if (keyword) return `<span class="text-blue-600 dark:text-blue-400 font-black">${match}</span>`;
     return match;
   });
 };

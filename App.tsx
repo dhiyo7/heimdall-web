@@ -12,7 +12,7 @@ import { ScrollToTop } from './components/ui/ScrollToTop';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-retro-dark-bg text-black dark:text-gray-200 selection:bg-black selection:text-white dark:selection:bg-green-500 dark:selection:text-black transition-colors duration-300">
       <Navbar />
       <main>
         <Hero />

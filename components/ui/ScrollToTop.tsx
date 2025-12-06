@@ -31,10 +31,10 @@ export const ScrollToTop: React.FC = () => {
             {isVisible && (
                 <button
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 z-50 p-3 bg-white border-2 border-black shadow-retro-sm hover:shadow-retro hover:-translate-y-1 transition-all duration-300 group"
+                    className="fixed bottom-8 right-8 z-50 p-3 bg-white dark:bg-black border-2 border-black dark:border-white shadow-retro-sm hover:shadow-retro hover:-translate-y-1 transition-all duration-300 group"
                     aria-label="Scroll to top"
                 >
-                    <ArrowUp className="w-6 h-6 text-black group-hover:scale-110 transition-transform" />
+                    <ArrowUp className="w-6 h-6 text-black dark:text-white group-hover:scale-110 transition-transform" />
                 </button>
             )}
         </>

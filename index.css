@@ -3,16 +3,29 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --retro-shadow: #000000;
+    --retro-shadow-gray: #808080;
+    --dot-color: #000000;
+  }
+
+  .dark {
+    --retro-shadow: #ffffff;
+    --retro-shadow-gray: #a3a3a3;
+    --dot-color: #333333;
+  }
+
   html {
     scroll-behavior: smooth;
   }
+
   body {
     @apply bg-white text-black font-sans;
   }
 }
 
 .bg-dots {
-  background-image: radial-gradient(circle at 1px 1px, #000 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0);
   background-size: 15px 15px;
 }
 
@@ -20,6 +33,7 @@
   .shadow-retro-lg {
     box-shadow: 8px 8px 0px #000;
   }
+
   .shadow-retro-sm {
     box-shadow: 4px 4px 0px #000;
   }
