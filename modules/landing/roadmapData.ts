@@ -1,4 +1,16 @@
-export const roadmapData = [
+export interface RoadmapFeature {
+  title: string;
+  done: boolean;
+  subFeatures?: string[];
+}
+
+export interface RoadmapPhase {
+  phase: string;
+  description: string;
+  features: RoadmapFeature[];
+}
+
+export const roadmapData: RoadmapPhase[] = [
   {
     phase: "PHASE 1: THE FOUNDATION (Selesai)",
     description: "Pondasi fisik robot agar kuat, stabil, dan bisa melihat.",
