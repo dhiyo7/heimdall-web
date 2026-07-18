@@ -4,15 +4,15 @@
 
 @layer base {
   :root {
-    --retro-shadow: #000000;
-    --retro-shadow-gray: #808080;
-    --dot-color: #000000;
+    --retro-shadow: rgba(0, 0, 0, 0.05);
+    --retro-shadow-gray: rgba(0, 0, 0, 0.02);
+    --dot-color: #e2e8f0;
   }
 
   .dark {
-    --retro-shadow: #ffffff;
-    --retro-shadow-gray: #a3a3a3;
-    --dot-color: #333333;
+    --retro-shadow: rgba(255, 255, 255, 0.05);
+    --retro-shadow-gray: rgba(255, 255, 255, 0.02);
+    --dot-color: #27272a;
   }
 
   html {
@@ -20,21 +20,29 @@
   }
 
   body {
-    @apply bg-white text-black font-sans;
+    @apply bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 font-sans transition-colors duration-300;
   }
 }
 
 .bg-dots {
-  background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0);
-  background-size: 15px 15px;
+  background-image: radial-gradient(circle at 1.5px 1.5px, var(--dot-color) 1.5px, transparent 0);
+  background-size: 20px 20px;
 }
 
 @layer utilities {
-  .shadow-retro-lg {
-    box-shadow: 8px 8px 0px #000;
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500;
+  }
+  
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-600 dark:from-emerald-400 dark:to-teal-400;
   }
 
-  .shadow-retro-sm {
-    box-shadow: 4px 4px 0px #000;
+  .bg-glass {
+    @apply bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md;
+  }
+
+  .border-glass {
+    @apply border border-slate-200/80 dark:border-zinc-800/80;
   }
 }
