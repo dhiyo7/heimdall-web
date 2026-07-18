@@ -29,10 +29,12 @@ export const ThemeToggle: React.FC = () => {
     return (
         <button
             onClick={toggleTheme}
-            className="p-2 border-2 border-black dark:border-white bg-white dark:bg-black hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200 focus:outline-none"
+            className="p-2 rounded-lg border border-slate-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/80 text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-950 dark:hover:text-white transition-all duration-300 focus:outline-none shadow-sm group"
             aria-label="Toggle Dark Mode"
         >
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+            <div className="transition-transform duration-500 group-hover:rotate-[360deg]">
+                {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </div>
         </button>
     );
 };

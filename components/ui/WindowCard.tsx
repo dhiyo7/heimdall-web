@@ -18,26 +18,27 @@ export const WindowCard: React.FC<WindowCardProps> = ({
   noPadding = false,
 }) => {
   return (
-    <div className={`border-2 border-black dark:border-white bg-white dark:bg-black flex flex-col h-full transition-colors duration-300 ${className}`}>
+    <div className={`border border-slate-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md rounded-xl flex flex-col h-full overflow-hidden transition-all duration-300 hover:border-slate-300 dark:hover:border-zinc-700/85 ${className}`}>
       {/* Window Header */}
-      <div className="border-b-2 border-black dark:border-white bg-gray-200 dark:bg-gray-900 px-3 py-2 flex items-center justify-between gap-4 transition-colors duration-300">
+      <div className="border-b border-slate-100 dark:border-zinc-900 bg-slate-50/70 dark:bg-zinc-900/30 px-4 py-2.5 flex items-center justify-between gap-4 transition-colors duration-300">
         <div className="flex gap-1.5 shrink-0">
-          <div className="w-3.5 h-3.5 rounded-full border border-black dark:border-gray-400 bg-white dark:bg-black"></div>
-          <div className="w-3.5 h-3.5 rounded-full border border-black dark:border-gray-400 bg-white dark:bg-black"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-red-400/80 dark:bg-red-500/40"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80 dark:bg-amber-500/40"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80 dark:bg-emerald-500/40"></div>
         </div>
-        <div className="flex-grow text-center font-mono text-xs font-bold uppercase tracking-tight truncate leading-tight dark:text-gray-200">
+        <div className="flex-grow text-center font-mono text-xs font-semibold text-slate-500 dark:text-zinc-400 tracking-tight truncate leading-tight">
           {title}
         </div>
         {date && (
-          <div className="font-mono text-[10px] font-bold shrink-0 opacity-60 dark:text-gray-400">
+          <div className="font-mono text-[10px] font-medium text-slate-400 dark:text-zinc-500 shrink-0">
             {date}
           </div>
         )}
-        {!date && <div className="w-[34px]"></div>} {/* Spacer for centering if needed, but flex-grow on title handles most */}
+        {!date && <div className="w-[34px]"></div>}
       </div>
 
       {/* Window Content */}
-      <div className={`flex-grow ${noPadding ? 'p-0' : 'p-4'} text-black dark:text-white ${contentClassName}`}>
+      <div className={`flex-grow ${noPadding ? 'p-0' : 'p-5'} text-slate-700 dark:text-zinc-300 ${contentClassName}`}>
         {children}
       </div>
     </div>

@@ -1,126 +1,88 @@
-export interface RoadmapFeature {
+export interface TimelineFeature {
   title: string;
-  done: boolean;
+  description: string;
+  icon?: string;
   subFeatures?: string[];
 }
 
-export interface RoadmapPhase {
+export interface TimelinePhase {
   phase: string;
   description: string;
-  features: RoadmapFeature[];
+  features: TimelineFeature[];
 }
 
-export const roadmapData: RoadmapPhase[] = [
+export const roadmapData: TimelinePhase[] = [
   {
-    phase: "PHASE 1: THE FOUNDATION (Selesai)",
-    description: "Pondasi fisik robot agar kuat, stabil, dan bisa melihat.",
+    phase: "1. Bahasa & Otomasi Inti",
+    description: "Fondasi pengujian menggunakan bahasa manusia yang dapat dipahami semua orang.",
     features: [
       {
-        title: "Smart Driver: Auto-scroll, pencarian elemen pintar (ID/Teks/Desc), Virtual FAB (Koordinat).",
-        done: true,
-      },
-      {
-        title: "Stability Engine: Ghost Keyboard (Anti-looping Emulator), Auto-dismiss keyboard.",
-        done: true,
-      },
-      {
-        title: "Basic Reporting: Saga Report (.docx) format Slide Presentation.",
-        done: true,
-      },
-      {
-        title: "Logging: API Sniffer (Capture Status Code 200 OK vs 500 Error).",
-        done: true,
-      },
-    ],
-  },
-  {
-    phase: "PHASE 2: THE BRAIN (Selesai) 🧠",
-    description: "Menanamkan kecerdasan buatan agar robot bisa berpikir logis.",
-    features: [
-      {
-        title: "Global Memory: SIMPAN teks ... KE {Var} (Menyimpan data antar langkah/file).",
-        done: true,
-      },
-      {
-        title: "Conditional Logic: JIKA ... AKHIR JIKA (Handling pop-up, error sync).",
-        done: true,
-      },
-      {
-        title: "Looping: ULANGI ... DARI [...] (Input data massal/berulang).",
-        done: true,
-      },
-      {
-        title: "Modular Architecture: JALANKAN \"file.heim\" (Re-use script login/setup).",
-        done: true,
-      },
-      {
-        title: 'System Keys: TEKAN TOMBOL SISTEM "Back" (Navigasi fisik Android).',
-        done: true,
-      },
-    ],
-  },
-  {
-    phase: "PHASE 3: VISUAL INTELLIGENCE (Selesai) 🧜‍♀️",
-    description: "Mengubah log teknis menjadi diagram bisnis yang cantik.",
-    features: [
-      {
-        title: "Mermaid Engine: Migrasi dari Graphviz ke Mermaid JS (Modern Standard).",
-        done: true,
-      },
-      {
-        title: "Smart Mapping: Menggambar simbol Diamond ♦ (Logika) dan Loop 🔄 otomatis.",
-        done: true,
-      },
-      {
-        title: 'Modern Styling: Tema visual "Wide & Dynamic" dengan pewarnaan Cluster otomatis.',
-        done: true,
-      },
-      {
-        title: "Rendering: Generate file flowchart.png otomatis via API mermaid.ink.",
-        done: true,
-      },
-    ],
-  },
-  {
-    phase: "PHASE 4: THE PLATFORM REVOLUTION (Next Target) 🖥️",
-    description: 'Mengubah tool "Hacker Terminal" menjadi Aplikasi Web Modern.',
-    features: [
-      {
-        title: "Heimdall Web Center (Streamlit):",
+        title: "Heimdall DSL (.heim Script Engine)",
+        description: "Tulis skenario pengujian dengan Bahasa Indonesia yang mudah dipahami. Tanpa perlu belajar coding.",
         subFeatures: [
-          "Dashboard GUI: Tidak perlu lagi ketik di layar hitam. Cukup klik tombol di browser.",
-          "Scenario Selector: Dropdown menu untuk memilih file .heim.",
-          "Device Manager: Auto-detect HP yang tercolok.",
-          "Live Execution Viewer: Melihat log perjalanan robot secara real-time.",
-        ],
-        done: false,
+          "Mendukung variabel, loop, dan logika kondisional.",
+          "Satu bahasa skrip untuk web dan mobile sekaligus."
+        ]
       },
-    ],
+      {
+        title: "Smart Inspector (Android & Web)",
+        description: "Bedah elemen UI aplikasi secara real-time untuk mengekstrak selector (ID, XPath, CSS) dan koordinat secara otomatis."
+      }
+    ]
   },
   {
-    phase: "PHASE 5: ENTERPRISE SCALE (Masa Depan) 🚀",
-    description: "Fitur skala besar untuk kebutuhan korporat.",
+    phase: "2. Pengalaman Interaktif",
+    description: "Sistem mirroring dan kontrol jarak jauh tanpa batas.",
     features: [
       {
-        title: "Cross-Platform Installer: Mengemas jadi .exe (Windows) atau .dmg (Mac).",
-        done: false,
+        title: "Interactive Mirroring (Web & Android)",
+        description: "Pantau halaman web via WebSocket dan Android via Scrcpy secara langsung dari dalam dashboard.",
+        subFeatures: [
+          "Klik, scroll, dan ketik langsung dari browser PC Anda ke device target."
+        ]
       },
       {
-        title: "Parallel Execution (Kage Bunshin): Menjalankan 1 script di 3 HP berbeda secara serentak.",
-        done: false,
-      },
-      {
-        title: "RTM Integration: Mapping ID Tiket Jira di header report otomatis.",
-        done: false,
-      },
-      {
-        title: "Notification Bot: Kirim notifikasi \"Tes Selesai\" ke Slack/Telegram.",
-        done: false,
-      },
-      {
-        title: 'Record & Replay: Bikin script otomatis dengan merekam klik mouse ("The Ghostwriter").',
-        done: false,
-      },
-    ],
+        title: "Live Runner & Floating Preview",
+        description: "Lihat langsung eksekusi berjalan baris demi baris, lengkap dengan preview melayang yang sinkron dengan aksi robot."
+      }
+    ]
   },
+  {
+    phase: "3. Manajemen & Produktivitas",
+    description: "IDE profesional untuk mengatur semua kebutuhan QA Automation.",
+    features: [
+      {
+        title: "Test Management System & IDE",
+        description: "Hierarki test management terpadu lengkap dengan Script Editor multi-tab yang mendukung syntax highlighting."
+      },
+      {
+        title: "Device Orchestration & AVD Provisioning",
+        description: "Kelola device fisik dan Android Virtual Device (AVD) dari satu pintu tanpa konfigurasi CLI yang rumit."
+      }
+    ]
+  },
+  {
+    phase: "4. Pelaporan & Analisis",
+    description: "Ketahui apa yang terjadi dengan visualisasi pelaporan mendalam.",
+    features: [
+      {
+        title: "Visual Test Reports & Command Center",
+        description: "Dashboard sentral untuk melihat hasil tes visual, bukti screenshot, dan flow chart diagram secara interaktif."
+      },
+      {
+        title: "Host Performance Monitor (Telemetry)",
+        description: "Awasi beban CPU, RAM, dan penyimpanan selama robot mengeksekusi skenario untuk meminimalisir freeze atau crash."
+      }
+    ]
+  },
+  {
+    phase: "5. Kemampuan Lanjutan",
+    description: "Kecanggihan infrastruktur untuk skenario kompleks.",
+    features: [
+      {
+        title: "Multi-Tab Web & Smart Isolation",
+        description: "Uji perpindahan antar tab atau buka multi-context terisolasi untuk tes concurrency (misal: Chat app A dan B berbarengan)."
+      }
+    ]
+  }
 ];

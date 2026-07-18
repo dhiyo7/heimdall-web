@@ -1,97 +1,108 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { WindowCard } from '../../components/ui/WindowCard';
-import { Accordion, AccordionItem } from '../../components/ui/Accordion';
-import { roadmapData as staticCallbacks, RoadmapPhase } from './roadmapData';
-import { fetchRoadmap, parseMarkdown } from './roadmapService';
-import { CheckSquare, Square, RefreshCw } from 'lucide-react';
+import { roadmapData } from './roadmapData';
+import { ChevronRight, Sparkles } from 'lucide-react';
 
 export const Roadmap: React.FC = () => {
-  const [data, setData] = useState<RoadmapPhase[]>(staticCallbacks);
-  const [loading, setLoading] = useState(true);
-  const [isLive, setIsLive] = useState(false);
-
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      const fetchedData = await fetchRoadmap();
-      // Simple check to see if we got data different from fallback/empty
-      if (fetchedData && fetchedData.length > 0) {
-        setData(fetchedData);
-        setIsLive(true);
-      }
-      setLoading(false);
-    };
-    loadData();
-  }, []);
+  const [activePhase, setActivePhase] = useState<number>(0);
 
   return (
-    <section id="roadmap" className="bg-dots bg-gray-100 dark:bg-retro-dark-bg py-16 md:py-24 border-b-4 border-black dark:border-white scroll-mt-20 transition-colors duration-300">
+    <section id="features-timeline" className="bg-slate-50/50 dark:bg-zinc-950/20 py-16 md:py-24 border-b border-slate-200/80 dark:border-zinc-900/80 scroll-mt-20 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
-          <div className="md:w-1/2">
-            <div className="inline-block bg-black text-white dark:bg-white dark:text-black px-2 py-1 font-mono text-xs font-bold mb-4 transform -rotate-2">
-              COMING SOON
+        <div className="flex flex-col lg:flex-row gap-12 items-start lg:items-center">
+          
+          <div className="lg:w-1/3 space-y-6">
+            <div>
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold font-sans tracking-wide uppercase bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 mb-4 border border-emerald-100 dark:border-emerald-950">
+                KAPABILITAS DESKTOP
+              </span>
+              <h2 className="font-sans font-black text-3xl md:text-5xl tracking-tight text-slate-900 dark:text-white leading-tight">
+                Dirancang untuk<br />Produktivitas.
+              </h2>
             </div>
-            <h2 className="font-sans font-black text-4xl md:text-5xl mb-6 leading-tight dark:text-white">
-              Roadmap &
-              <br />
-              Masa Depan
-            </h2>
-            <div className="font-mono text-base md:text-lg mb-8 leading-relaxed bg-white dark:bg-black border-2 border-black dark:border-white p-6 shadow-retro relative dark:text-gray-300">
+            
+            <div className="font-sans text-sm sm:text-base leading-relaxed text-slate-600 dark:text-zinc-400">
               <p>
-                Heimdall terus berevolusi. Klik pada item di timeline untuk melihat detail teknis dari fitur yang sedang kami racik.
+                Platform ini menggabungkan semua tool yang Anda butuhkan ke dalam satu alur kerja mulus. Jelajahi perjalanan fitur dari inspeksi hingga pelaporan.
               </p>
-              <div className="absolute -top-3 -right-3 bg-black text-white dark:bg-white dark:text-black text-xs font-bold px-2 py-1 rotate-3">
-                INTERACTIVE
-              </div>
             </div>
-            <div className="flex flex-col gap-3">
-              <a href="https://github.com/dhiyo7/heimdall" className="inline-flex items-center gap-2 font-mono text-sm font-bold underline hover:bg-black hover:text-white dark:text-gray-300 dark:hover:bg-white dark:hover:text-black transition-colors p-1 w-max">
-                <span>👉 Request Fitur di GitHub</span>
-              </a>
-              <a href="https://github.com/dhiyo7/heimdall/issues" className="inline-flex items-center gap-2 font-mono text-sm font-bold underline hover:bg-black hover:text-white dark:text-gray-300 dark:hover:bg-white dark:hover:text-black transition-colors p-1 w-max">
-                <span>🐛 Lapor Bug (Issue)</span>
-              </a>
+            
+            {/* Interactive Timeline Navigation */}
+            <div className="hidden lg:flex flex-col gap-2 mt-8">
+              {roadmapData.map((phase, idx) => (
+                <button 
+                  key={idx}
+                  onClick={() => setActivePhase(idx)}
+                  className={`text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between border ${
+                    activePhase === idx 
+                      ? 'bg-white dark:bg-zinc-900 border-emerald-200 dark:border-emerald-500/30 shadow-sm text-emerald-600 dark:text-emerald-400' 
+                      : 'border-transparent hover:bg-slate-100 dark:hover:bg-zinc-900/50 text-slate-500 dark:text-zinc-500'
+                  }`}
+                >
+                  <span className="font-sans text-sm font-bold">{phase.phase}</span>
+                  {activePhase === idx && <ChevronRight size={16} />}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="md:w-1/2 w-full">
+          <div className="lg:w-2/3 w-full">
+            {/* Mobile Navigation (Tabs) */}
+            <div className="flex lg:hidden overflow-x-auto pb-4 mb-4 space-x-2 snap-x">
+              {roadmapData.map((phase, idx) => (
+                <button 
+                  key={idx}
+                  onClick={() => setActivePhase(idx)}
+                  className={`shrink-0 snap-start px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                    activePhase === idx 
+                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' 
+                      : 'bg-white dark:bg-zinc-900 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-800'
+                  }`}
+                >
+                  {phase.phase.split('.')[0]} {/* Show just the number for space */}
+                </button>
+              ))}
+            </div>
+
             <WindowCard
-              title="STATUS_LOG - ROADMAP_TIMELINE.EXE"
-              date={isLive ? "LIVE_SYNC" : "OFFLINE_MODE"}
-              className="w-full shadow-retro-lg"
+              title={`fitur_fase_${activePhase + 1}.md`}
+              date="LIVE"
+              className="w-full min-h-[400px] flex flex-col"
             >
-              {loading ? (
-                <div className="p-8 text-center font-mono text-sm animate-pulse dark:text-white">
-                  <RefreshCw className="w-6 h-6 mx-auto mb-2 animate-spin" />
-                  Requesting Data...
+              <div className="p-6 md:p-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                <div className="mb-8 border-b border-slate-100 dark:border-zinc-800/80 pb-6">
+                  <h3 className="font-sans text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-2">{roadmapData[activePhase].phase}</h3>
+                  <p className="font-sans text-sm md:text-base text-slate-600 dark:text-zinc-400">{roadmapData[activePhase].description}</p>
                 </div>
-              ) : (
-                <Accordion defaultOpenIndex={0}>
-                  {data.map((phase, phaseIndex) => (
-                    <AccordionItem key={phaseIndex} title={phase.phase}>
-                      <div className="space-y-3 p-4">
-                        <p className="font-mono text-sm text-gray-600 dark:text-gray-400 mb-3 italic" dangerouslySetInnerHTML={{ __html: parseMarkdown(phase.description) }} />
-                        {phase.features.map((feature: any, featureIndex) => (
-                          <div key={featureIndex} className="flex items-start gap-3">
-                            {feature.done ? <CheckSquare className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" /> : <Square className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />}
-                            <div className="flex-grow">
-                              <div className="font-mono text-sm" dangerouslySetInnerHTML={{ __html: parseMarkdown(feature.title) }} />
-                              {feature.subFeatures && (
-                                <ul className="list-disc list-inside mt-2 space-y-1 pl-4">
-                                  {feature.subFeatures.map((sub: string, subIndex: number) => (
-                                    <li key={subIndex} className="font-mono text-xs" dangerouslySetInnerHTML={{ __html: parseMarkdown(sub) }} />
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                          </div>
-                        ))}
+
+                <div className="space-y-6">
+                  {roadmapData[activePhase].features.map((feature, fIdx) => (
+                    <div key={fIdx} className="bg-slate-50/50 dark:bg-zinc-900/30 rounded-xl p-5 border border-slate-100 dark:border-zinc-800/50">
+                      <div className="flex gap-3 items-start">
+                        <div className="mt-1 w-6 h-6 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex flex-shrink-0 items-center justify-center">
+                          <Sparkles size={12} />
+                        </div>
+                        <div>
+                          <h4 className="font-sans text-base font-bold text-slate-900 dark:text-zinc-100 mb-1">{feature.title}</h4>
+                          <p className="font-sans text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mb-3">
+                            {feature.description}
+                          </p>
+                          {feature.subFeatures && (
+                            <ul className="space-y-1 mt-2">
+                              {feature.subFeatures.map((sub, sIdx) => (
+                                <li key={sIdx} className="flex gap-2 items-start text-xs font-sans text-slate-500 dark:text-zinc-500">
+                                  <span className="text-emerald-400 mt-0.5">•</span>
+                                  <span>{sub}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
                       </div>
-                    </AccordionItem>
+                    </div>
                   ))}
-                </Accordion>
-              )}
+                </div>
+              </div>
             </WindowCard>
           </div>
         </div>
