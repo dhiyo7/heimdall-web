@@ -34,3 +34,8 @@
   [headers.values]
     Content-Type = "application/xml; charset=utf-8"
 
+[[redirects]]
+  from = "/documentation/*"
+  to = "https://docs.theheimdall.com"
+  status = 301
+  force = true

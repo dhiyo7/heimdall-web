@@ -15,7 +15,7 @@ import { Footer } from './modules/layout/Footer';
 import { ScrollToTop } from './components/ui/ScrollToTop';
 import { NotFound } from './pages/NotFound';
 
-const DOCS_URL = 'http://localhost:5174';
+const DOCS_URL = 'https://docs.theheimdall.com/';
 
 const LandingPage = () => (
   <>
