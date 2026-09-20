@@ -8,11 +8,11 @@ export const DocumentationSection: React.FC = () => {
   return (
     <section
       id="docs"
-      className="py-16 border-b border-[var(--color-border)] bg-[var(--color-background)] transition-colors duration-300"
+      className="py-12 md:py-16 border-b border-[var(--color-border)] bg-[var(--color-background)] transition-colors duration-300"
     >
       <div className="container-constrained">
-        <div className="text-center mb-16">
-          <h2 className="font-extrabold text-h2 text-[var(--color-text-primary)] mb-6 tracking-tight">
+        <div className="text-center mb-10 md:mb-16">
+          <h2 className="font-extrabold responsive-text-h2 text-[var(--color-text-primary)] mb-6 tracking-tight">
             {t('docs_section.title')}
           </h2>
           <p className="text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto">
@@ -20,7 +20,7 @@ export const DocumentationSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-stretch">
           {/* Left Column */}
           <WindowCard title="live_preview.exe" className="h-full">
             <div className="p-5 space-y-6">

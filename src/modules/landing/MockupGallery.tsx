@@ -28,7 +28,7 @@ export const MockupGallery: React.FC = () => {
     <section id="gallery" className="pt-section pb-section border-b border-[var(--color-border)]">
       <div className="container-constrained">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-h2 text-[var(--color-text-primary)] mb-6 tracking-tight">
+          <h2 className="responsive-text-h2 text-[var(--color-text-primary)] mb-6 tracking-tight">
             {t('gallery.title_part1')} <span className="text-[var(--color-accent)]">{t('gallery.title_part2')}</span>
           </h2>
           <p className="text-body text-[var(--color-text-secondary)] leading-relaxed">
@@ -36,7 +36,7 @@ export const MockupGallery: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
           {images.map((img, idx) => (
             <WindowCard key={idx} title={img.alt} noPadding className="h-full" variant="highlight">
               <img

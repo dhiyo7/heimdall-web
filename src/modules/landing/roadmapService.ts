@@ -1,8 +1,21 @@
-import { TimelinePhase as RoadmapPhase, TimelineFeature as RoadmapFeature } from './roadmapData';
+// Dynamic phase type used internally by the parser
+// (differs from i18n-key based TimelinePhase in roadmapData.ts)
+interface ParsedPhase {
+  phaseKey: string;
+  descriptionKey: string;
+  features: ParsedFeature[];
+}
+
+interface ParsedFeature {
+  titleKey: string;
+  descriptionKey: string;
+  subFeatureKeys?: string[];
+  done?: boolean;
+}
 
 const GITHUB_README_URL = 'https://raw.githubusercontent.com/dhiyo7/heimdall/main/Readme.md';
 
-export const fetchRoadmap = async (): Promise<RoadmapPhase[] | null> => {
+export const fetchRoadmap = async (): Promise<ParsedPhase[] | null> => {
     try {
         const response = await fetch(GITHUB_README_URL);
         if (!response.ok) throw new Error('Failed to fetch README');
@@ -14,10 +27,10 @@ export const fetchRoadmap = async (): Promise<RoadmapPhase[] | null> => {
     }
 };
 
-const parseRoadmap = (markdown: string): RoadmapPhase[] | null => {
-    const phases: RoadmapPhase[] = [];
+const parseRoadmap = (markdown: string): ParsedPhase[] | null => {
+    const phases: ParsedPhase[] = [];
     const lines = markdown.split('\n');
-    let currentPhase: RoadmapPhase | null = null;
+    let currentPhase: ParsedPhase | null = null;
     let captureMode = false;
 
     for (let i = 0; i < lines.length; i++) {
@@ -50,14 +63,9 @@ const parseRoadmap = (markdown: string): RoadmapPhase[] | null => {
             // Remove leading/trailing **
             phaseTitle = phaseTitle.replace(/^\*\*(.*)\*\*$/, '$1');
 
-            // Further cleanup if it has ** prefix but not suffix or vice versa? 
-            // Better: just remove all ** if they surround it? 
-            // Or just remove ** generally? No, some parts might be bold.
-            // Let's assume title is either fully bolded or not.
-
             currentPhase = {
-                phase: phaseTitle,
-                description: '', // Will look for description in next lines
+                phaseKey: phaseTitle,
+                descriptionKey: '', // Will look for description in next lines
                 features: []
             };
 
@@ -70,10 +78,10 @@ const parseRoadmap = (markdown: string): RoadmapPhase[] | null => {
                     // It's likely a description line if it starts with * or just text
                     const descMatch = nextLine.match(/^\*(.*?)\*$/);
                     if (descMatch) {
-                        currentPhase.description = descMatch[1];
+                        currentPhase.descriptionKey = descMatch[1];
                     } else {
                         // Maybe just text?
-                        currentPhase.description = nextLine;
+                        currentPhase.descriptionKey = nextLine;
                     }
                     break; // Found description or text, stop looking
                 } else if (nextLine.match(/^[\*\-]\s*\[/)) {
@@ -101,8 +109,9 @@ const parseRoadmap = (markdown: string): RoadmapPhase[] | null => {
                 const title = contentMatch[1];
                 const desc = contentMatch[2];
 
-                const feature: RoadmapFeature = {
-                    title: `${title}: ${desc}`,
+                const feature: ParsedFeature = {
+                    titleKey: `${title}: ${desc}`,
+                    descriptionKey: '',
                     done: isDone
                 };
                 currentPhase.features.push(feature);
@@ -110,8 +119,9 @@ const parseRoadmap = (markdown: string): RoadmapPhase[] | null => {
                 // Fallback simpler match if format differs
                 const simpleMatch = line.match(/\\?\]\s*(.*)/);
                 if (simpleMatch) {
-                    const feature: RoadmapFeature = {
-                        title: simpleMatch[1],
+                    const feature: ParsedFeature = {
+                        titleKey: simpleMatch[1],
+                        descriptionKey: '',
                         done: isDone
                     };
                     currentPhase.features.push(feature);
@@ -139,10 +149,10 @@ const parseRoadmap = (markdown: string): RoadmapPhase[] | null => {
                 subText = `${subTitle}${subRest}`;
             }
 
-            if (!lastFeature.subFeatures) {
-                lastFeature.subFeatures = [];
+            if (!lastFeature.subFeatureKeys) {
+                lastFeature.subFeatureKeys = [];
             }
-            lastFeature.subFeatures.push(subText);
+            lastFeature.subFeatureKeys.push(subText);
         }
     }
 

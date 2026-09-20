@@ -95,7 +95,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4 animate-fade-in">
+        <div className="md:hidden border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4 animate-fade-in max-h-[calc(100vh-72px)] overflow-y-auto">
           <div className="flex flex-col space-y-3">
             {links.map((link) => (
               <a

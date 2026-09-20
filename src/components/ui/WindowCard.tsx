@@ -57,7 +57,7 @@ export const WindowCard: React.FC<WindowCardProps> = ({
           <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-success)]" aria-hidden="true" />
         </div>
 
-        <div className="flex-grow text-center">
+        <div className="flex-grow text-center min-w-0">
           <div className="font-mono text-xs font-semibold text-[var(--color-text-muted)] tracking-tight truncate leading-tight">
             {title}
           </div>

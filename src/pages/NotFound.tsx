@@ -7,7 +7,7 @@ export const NotFound: React.FC = () => {
   const { t } = useI18n();
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-[var(--color-background)] px-4">
-      <div className="max-w-lg w-full text-center space-y-6">
+      <div className="max-w-lg w-full mx-auto text-center space-y-6">
         <div className="flex justify-center mb-6">
           <div className="w-20 h-20 bg-[var(--color-danger)]/10 rounded-lg flex items-center justify-center border border-[var(--color-border)]">
             <ShieldAlert className="w-10 h-10 text-[var(--color-danger)]" />

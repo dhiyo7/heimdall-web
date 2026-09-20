@@ -11,10 +11,10 @@ export const Roadmap: React.FC = () => {
   return (
     <section id="roadmap" className="pt-section pb-section border-b border-[var(--color-border)]">
       <div className="container-constrained">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left: Phase Navigation */}
-          <div className="lg:col-span-4 space-y-8 sticky top-24">
-            <h2 className="text-h2 text-[var(--color-text-primary)] leading-none">
+          <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-24">
+            <h2 className="responsive-text-h2 text-[var(--color-text-primary)] leading-none">
               {t('roadmap.title_part1')}<br />
               <span className="text-[var(--color-accent)]">{t('roadmap.title_part2')}</span>
             </h2>
@@ -22,7 +22,7 @@ export const Roadmap: React.FC = () => {
               {t('roadmap.description')}
             </p>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-row overflow-x-auto gap-2 lg:flex-col lg:overflow-visible pb-1">
               {roadmapData.map((phase, idx) => (
                 <button
                   key={idx}
@@ -44,17 +44,17 @@ export const Roadmap: React.FC = () => {
             <WindowCard
               title={`roadmap_phase_${activePhase + 1}.json`}
               variant="highlight"
-              className="w-full min-h-[500px]"
+              className="w-full md:min-h-[500px]"
             >
               <div className="p-4 md:p-8 space-y-10 animate-fade-in">
                 <div className="border-b border-[var(--color-border)] pb-8">
-                  <h3 className="text-h3 text-[var(--color-text-primary)] mb-4">{t(roadmapData[activePhase].phaseKey)}</h3>
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--color-text-primary)] mb-4">{t(roadmapData[activePhase].phaseKey)}</h3>
                   <p className="text-body text-[var(--color-text-secondary)] italic leading-relaxed">
                     {t(roadmapData[activePhase].descriptionKey)}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 gap-4 md:gap-6">
                   {roadmapData[activePhase].features.map((feature, fIdx) => (
                     <div key={fIdx} className="bg-[var(--color-background)] rounded-xl p-6 border border-[var(--color-border)] hover:border-[var(--color-accent)]/50 transition-colors">
                       <div className="flex gap-4 items-start">

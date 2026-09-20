@@ -9,7 +9,7 @@ export const AboutSection: React.FC = () => {
   return (
     <section
       id="about"
-      className="py-20 border-b border-[var(--color-border)] bg-[var(--color-background)]"
+      className="py-14 md:py-20 border-b border-[var(--color-border)] bg-[var(--color-background)]"
     >
       <div className="container-constrained">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -20,7 +20,7 @@ export const AboutSection: React.FC = () => {
               {t('about.badge')}
             </div>
 
-            <h2 className="text-h2 text-[var(--color-text-primary)] leading-tight tracking-tight">
+            <h2 className="responsive-text-h2 text-[var(--color-text-primary)] leading-tight tracking-tight">
               {t('about.title_part1')}<br />
               <span className="text-[var(--color-accent)]">{t('about.title_part2')}</span>
             </h2>

@@ -1,0 +1,10 @@
+# ai.txt — AI crawler guidance for theheimdall.com
+# https://site.spawning.ai/spawning-ai-txt
+
+site-name: Heimdall
+site-url: https://theheimdall.com
+contact: example@email.com
+language: en, id
+description: Heimdall is an AI-powered QA Automation and QA Management System for end-to-end testing of Android and Web applications. Open-source, free to use, with AI test generation, self-healing tests, visual regression, and CI/CD integration.
+topics: qa-automation, software-testing, ai-testing, devtools
+sitemap: https://theheimdall.com/sitemap.xml

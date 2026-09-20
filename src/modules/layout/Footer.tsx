@@ -5,7 +5,7 @@ import { useI18n } from '../../i18n/I18nContext';
 export const Footer: React.FC = () => {
   const { t } = useI18n();
   return (
-    <footer className="bg-[var(--color-background)] border-t border-[var(--color-border)] py-16" style={{ minHeight: '431px' }}>
+    <footer className="bg-[var(--color-background)] border-t border-[var(--color-border)] py-10 md:py-16">
       <div className="container-constrained">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand Info */}

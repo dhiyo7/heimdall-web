@@ -1,0 +1,21 @@
+# Konfigurasi deploy Netlify untuk site dokumentasi (docs.theheimdall.com)
+# Site ini berbagi repo dengan web utama (monorepo pattern).
+# Di Netlify UI, set: Base directory = docs
+# Config di file ini diambil dari folder base, BUKAN dari netlify.toml di root,
+# sehingga tidak menimpa konfigurasi web utama.
+
+[build]
+  # cwd build = docs/ → pindah ke root untuk install deps (package.json ada di root),
+  # lalu jalankan vitepress build (output: docs/.vitepress/dist)
+  command = "cd .. && npm ci && npm run docs:build"
+  # Path relatif terhadap base directory (docs/)
+  publish = ".vitepress/dist"
+
+  [build.environment]
+    NODE_VERSION = "20"
+
+# Header caching untuk aset hash VitePress (aman cache permanen)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
