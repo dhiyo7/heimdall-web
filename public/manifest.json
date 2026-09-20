@@ -1,0 +1,16 @@
+{
+  "name": "Heimdall - AI-Powered QA Automation",
+  "short_name": "Heimdall",
+  "description": "Heimdall is an AI-powered QA Automation platform for end-to-end testing, QA management, and intelligent test execution.",
+  "start_url": "https://theheimdall.com/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
