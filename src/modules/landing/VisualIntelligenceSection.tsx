@@ -19,15 +19,15 @@ export const VisualIntelligenceSection: React.FC = () => {
   return (
     <section
       id="other-features"
-      className="py-20 border-b border-[var(--color-border)] bg-[var(--color-background)]"
+      className="py-14 md:py-20 border-b border-[var(--color-border)] bg-[var(--color-background)]"
     >
       <div className="container-constrained">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-semibold text-[var(--color-primary)]">
             <Zap size={13} />
             {t('visual_intel.badge')}
           </div>
-          <h2 className="text-h2 text-[var(--color-text-primary)] leading-tight tracking-tight">
+          <h2 className="responsive-text-h2 text-[var(--color-text-primary)] leading-tight tracking-tight">
             {t('visual_intel.title_part1')}{' '}
             <span className="text-[var(--color-accent)]">{t('visual_intel.title_part2')}</span>
           </h2>
@@ -36,7 +36,7 @@ export const VisualIntelligenceSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-stretch">
           {icons.map((IconComponent, idx) => {
             const num = idx + 1;
             return (

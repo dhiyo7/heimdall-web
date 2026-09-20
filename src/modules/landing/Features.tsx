@@ -18,7 +18,7 @@ export const Features: React.FC = () => {
     <section id="features" className="pt-section pb-section border-b border-[var(--color-border)]">
       <div className="container-constrained">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-h2 text-[var(--color-text-primary)] mb-6">
+          <h2 className="responsive-text-h2 text-[var(--color-text-primary)] mb-6">
             {t('features.title_part1')} <span className="text-[var(--color-accent)]">{t('features.title_part2')}</span>
           </h2>
           <p className="text-body text-[var(--color-text-secondary)] leading-relaxed">
@@ -26,7 +26,7 @@ export const Features: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {featureItems.map((item, idx) => (
             <WindowCard key={idx} title={item.filename} className="h-full" variant="default">
               <div className="p-6 flex flex-col h-full">

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- ===== Primary SEO ===== -->
   <title>Heimdall – AI-Powered QA Automation & QA Management System</title>
@@ -11,13 +11,19 @@
   <meta name="keywords" content="QA Automation, QA Test, AI QA, QA AI, QA Management System, automated testing, end-to-end testing, Android automation, Web automation, test automation platform, AI testing, quality assurance, QA tools, Heimdall, software testing" />
   <meta name="author" content="Heimdall" />
   <meta name="robots" content="index, follow" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="bingbot" content="index, follow" />
+  <meta name="google" content="notranslate" />
+  <meta name="format-detection" content="telephone=no" />
   <meta name="theme-color" content="#0072f5" />
   <meta name="apple-mobile-web-app-title" content="Heimdall" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="canonical" href="https://theheimdall.com/" />
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+  <link rel="dns-prefetch" href="https://static.cloudflareinsights.com" />
   <link rel="preload" href="/favicon.svg" as="image" />
-  <link rel="prefetch" href="/heimdall-hero.jpg" as="image" />
+  <link rel="preload" href="/heimdall-hero.jpg" as="image" fetchpriority="high" />
 
   <!-- ===== Favicon ===== -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -79,7 +85,13 @@
     "@type": "Organization",
     "name": "Heimdall",
     "url": "https://theheimdall.com/",
-    "logo": "https://theheimdall.com/favicon.svg"
+    "logo": "https://theheimdall.com/favicon.svg",
+    "sameAs": ["https://github.com/dhiyo7/heimdall"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "example@email.com"
+    }
   }
   </script>
   <script type="application/ld+json">
@@ -92,6 +104,9 @@
     "description": "Heimdall is an AI-powered QA Automation and QA Management System that enables end-to-end QA testing for Android and Web applications. It uses AI to generate intelligent test reports, automate QA test execution, and manage the entire QA lifecycle.",
     "keywords": "QA Automation, QA Test, AI, QA AI, QA Management System",
     "url": "https://theheimdall.com",
+    "screenshot": "https://theheimdall.com/heimdall-hero.jpg",
+    "featureList": "AI Test Generation, Self-Healing Tests, Visual Regression Testing, API Testing, Data-Driven Testing, Cross-Platform Android & Web, CI/CD Integration, Live Test Runner, Smart Inspector",
+    "author": { "@type": "Organization", "name": "Heimdall" },
     "offers": {
       "@type": "Offer",
       "price": "0",

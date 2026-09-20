@@ -15,7 +15,17 @@ export default defineConfig({
     ['meta', { name: 'twitter:card', content: 'summary' }],
     ['meta', { name: 'twitter:title', content: 'Heimdall Documentation' }],
     ['meta', { name: 'twitter:description', content: 'Dokumentasi resmi Heimdall - Panduan Pengguna Aplikasi QA Automation' }],
+    ['link', { rel: 'canonical', href: 'https://theheimdall.com/docs/' }],
+    ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1' }],
+    ['meta', { property: 'og:url', content: 'https://theheimdall.com/docs/' }],
+    ['meta', { property: 'og:site_name', content: 'Heimdall' }],
+    ['meta', { property: 'og:locale', content: 'id_ID' }],
+    ['meta', { name: 'twitter:image', content: 'https://theheimdall.com/heimdall-hero.jpg' }],
+    ['meta', { name: 'twitter:image:alt', content: 'Heimdall QA Automation Platform' }],
   ],
+  sitemap: {
+    hostname: 'https://theheimdall.com',
+  },
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },

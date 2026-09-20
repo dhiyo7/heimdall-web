@@ -18,7 +18,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-[var(--color-background)] px-4 py-16">
+    <div className="min-h-[80vh] flex items-center justify-center bg-[var(--color-background)] px-4 py-10 md:py-16">
       <div className="w-full max-w-md">
         <WindowCard title="heimdall login" date="AUTH" className="shadow-sm">
           <div className="p-2 sm:p-4">

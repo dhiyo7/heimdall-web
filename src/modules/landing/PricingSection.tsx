@@ -174,7 +174,7 @@ export const PricingSection: React.FC = () => {
   return (
     <section
       id="pricing"
-      className="py-20 border-b border-[var(--color-border)] bg-[var(--color-background)]"
+      className="py-14 md:py-20 border-b border-[var(--color-border)] bg-[var(--color-background)]"
     >
       <div className="container-constrained">
         {/* ── Section Header ── */}
@@ -184,8 +184,8 @@ export const PricingSection: React.FC = () => {
           </span>
         </div>
 
-        <div className="text-center mb-20">
-          <h2 className="text-h2 text-[var(--color-text-primary)] mb-6">
+        <div className="text-center mb-12 md:mb-20">
+          <h2 className="responsive-text-h2 text-[var(--color-text-primary)] mb-6">
             {t('pricing.title_part1')}
           </h2>
           <p className="text-body text-[var(--color-text-secondary)] max-w-2xl mx-auto leading-relaxed">
@@ -228,7 +228,7 @@ export const PricingSection: React.FC = () => {
         </div> */}
 
         {/* ── 3-Tier Pricing Cards ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12 md:mb-20">
           {plans.map((plan, idx) => (
             <WindowCard
               key={idx}
@@ -245,7 +245,7 @@ export const PricingSection: React.FC = () => {
 
                 {/* Price — WingDeck Price Tag spec: 40px / 800, mono numerals */}
                 <div className="mb-6">
-                  <span className="font-mono text-[40px] leading-none font-extrabold text-[var(--color-text-muted)]">
+                  <span className="font-mono text-3xl md:text-[40px] leading-none font-extrabold text-[var(--color-text-muted)]">
                     {t(plan.priceKey)}
                   </span>
                   {plan.priceKey !== 'pricing.enterprise_price' && (
@@ -287,7 +287,7 @@ export const PricingSection: React.FC = () => {
 
         {/* ── Full Spec Comparison ── */}
         <div className="mb-8">
-          <h3 className="text-h3 text-[var(--color-text-primary)] mb-4 text-center font-bold">
+          <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--color-text-primary)] mb-4 text-center">
             {t('pricing.comparison_title')}
           </h3>
           <p className="text-body text-[var(--color-text-secondary)] text-center max-w-xl mx-auto leading-relaxed">
@@ -301,6 +301,7 @@ export const PricingSection: React.FC = () => {
               <h4 className="text-heading-23px text-[var(--color-primary)] mb-4 font-black tracking-tight">
                 {t(group.groupKey)}
               </h4>
+              <p className="md:hidden text-xs text-[var(--color-text-muted)] mb-2">Swipe to see all plans →</p>
 
               <div className="overflow-x-auto rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-muted)] shadow-sm">
                 <div className="min-w-[760px]">

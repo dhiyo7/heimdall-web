@@ -11,7 +11,7 @@ export const Hero: React.FC = () => {
       style={{ minHeight: '780px' }}
     >
       <div className="container-constrained">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content - WingDeck style Hero */}
           <div className="space-y-10">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-medium text-[var(--color-text-muted)]">

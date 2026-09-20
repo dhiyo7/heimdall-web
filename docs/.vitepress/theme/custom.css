@@ -987,3 +987,188 @@ html:not(.dark) *::-webkit-scrollbar-thumb {
   background: #d8dbdf;
   border: 2px solid #ffffff;
 }
+
+/* ============================================================
+   RESPONSIVE OPTIMIZATION — Mobile / Tablet / Desktop
+   ============================================================ */
+
+/* ---- Fix global overflow on mobile ---- */
+@media (max-width: 960px) {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
+
+/* ---- Doc content typography scaling ---- */
+@media (max-width: 960px) {
+  .VPDoc .doc-content h1,
+  .VPDoc .VPDoc-heading h1 {
+    font-size: 1.75rem;
+    line-height: 1.25;
+  }
+
+  .VPDoc .doc-content h2,
+  .VPDoc .VPDoc-heading h2 {
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+
+  .VPDoc .doc-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .VPDoc .doc-content h4 {
+    font-size: 1.05rem;
+  }
+
+  .VPDoc .doc-content pre {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .VPDoc .doc-content pre code {
+    font-size: 12.5px;
+  }
+
+  .VPDoc th,
+  .VPDoc td {
+    padding: 0.5rem 0.6rem;
+    font-size: 13.5px;
+  }
+
+  /* Tables: horizontal scroll wrapper instead of overflow */
+  .VPDoc .doc-content-outer table,
+  .vp-doc table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}
+
+/* ---- Hero scaling ---- */
+@media (max-width: 960px) {
+  .VPHero .name {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+
+  .VPHero .text {
+    font-size: 1.15rem;
+    line-height: 1.5;
+  }
+
+  .VPHero {
+    padding-top: var(--spacing-2xl);
+    padding-bottom: var(--spacing-2xl);
+  }
+
+  .VPHero .actions {
+    gap: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 640px) {
+  .VPHero .name {
+    font-size: 1.9rem;
+  }
+
+  .VPHero .text {
+    font-size: 1rem;
+  }
+
+  .VPHero .actions .VPButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ---- Features grid responsive ---- */
+@media (max-width: 960px) {
+  .VPFeatures .items {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--spacing-sm) !important;
+  }
+
+  .VPFeatures .feature-item-title {
+    font-size: 1.1rem;
+  }
+
+  .VPFeatures .feature-item-details {
+    font-size: 14px;
+  }
+
+  .VPFeatures .feature-item-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .VPFeatures .items {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---- Code blocks: long lines wrap/scroll cleanly ---- */
+@media (max-width: 960px) {
+  .vp-doc div[class*='language-'] {
+    margin: 16px -8px;
+    border-radius: var(--radius-md);
+  }
+
+  .vp-doc div[class*='language-'] code {
+    font-size: 12.5px;
+  }
+}
+
+/* ---- 404 scaling ---- */
+@media (max-width: 640px) {
+  .VPDoc .not-found h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ---- Very small phones: container padding ---- */
+@media (max-width: 480px) {
+  :root {
+    --container-padding: 12px;
+  }
+
+  .VPDoc,
+  .VPLanding {
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+  }
+
+  /* Custom scrollbar hidden on mobile (saves space) */
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* ---- Navbar height on mobile (VitePress default is 55-64px, custom sets 72px) ---- */
+@media (max-width: 960px) {
+  .VPNavBar {
+    height: 60px;
+  }
+
+  .VPNavBar .VPNavBar-title,
+  .VPNavBar .VPNavBar-brand {
+    font-size: 15px;
+  }
+}
+
+/* ---- Images and media max-width safety ---- */
+.vp-doc img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- Videos responsive ---- */
+.vp-doc iframe {
+  max-width: 100%;
+}
