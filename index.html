@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, user-scalable=no" />
 
   <!-- ===== Primary SEO ===== -->
   <title>Heimdall – AI-Powered QA Automation & QA Management System</title>
@@ -11,8 +11,13 @@
   <meta name="keywords" content="QA Automation, QA Test, AI QA, QA AI, QA Management System, automated testing, end-to-end testing, Android automation, Web automation, test automation platform, AI testing, quality assurance, QA tools, Heimdall, software testing" />
   <meta name="author" content="Heimdall" />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#6366f1" />
+  <meta name="theme-color" content="#0072f5" />
+  <meta name="apple-mobile-web-app-title" content="Heimdall" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="canonical" href="https://theheimdall.com/" />
+  <link rel="preload" href="/favicon.svg" as="image" />
+  <link rel="prefetch" href="/heimdall-hero.jpg" as="image" />
 
   <!-- ===== Favicon ===== -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -25,7 +30,9 @@
   <meta property="og:title" content="Heimdall – AI-Powered QA Automation & QA Management System" />
   <meta property="og:description" content="Streamline your QA workflow with Heimdall — an AI-driven QA Automation and QA Management System that helps teams ship quality software faster. Supports Android & Web end-to-end testing with smart reporting." />
   <meta property="og:image" content="https://theheimdall.com/heimdall-hero.jpg" />
-  <meta property="og:image:alt" content="Heimdall QA Automation Platform dashboard preview" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Heimdall QA Automation Platform dashboard preview showing AI-powered testing interface" />
   <meta property="og:site_name" content="Heimdall" />
   <meta property="og:locale" content="en_US" />
 
@@ -35,8 +42,46 @@
   <meta name="twitter:title" content="Heimdall – AI-Powered QA Automation & QA Management System" />
   <meta name="twitter:description" content="Automate your entire QA pipeline with AI. Heimdall combines QA Automation, intelligent QA Test management, and AI-driven analytics in one unified platform." />
   <meta name="twitter:image" content="https://theheimdall.com/heimdall-hero.jpg" />
+  <meta name="twitter:image:width" content="1200" />
+  <meta name="twitter:image:height" content="630" />
+  <meta name="twitter:image:alt" content="Heimdall QA Automation Platform dashboard preview showing AI-powered testing interface" />
+  <meta name="twitter:creator" content="@heimdall" />
 
   <!-- ===== Structured Data / JSON-LD ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Heimdall - AI-Powered QA Automation",
+    "url": "https://theheimdall.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://theheimdall.com/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://theheimdall.com/"
+    }]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Heimdall",
+    "url": "https://theheimdall.com/",
+    "logo": "https://theheimdall.com/favicon.svg"
+  }
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,22 +95,77 @@
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "USD"
+      "priceCurrency": "IDR"
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Heimdall?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Heimdall is an AI-Powered QA Automation tool designed to address the fatigue of manual regression testing. With Heimdall, you can perform end-to-end testing for Android and Web applications automatically."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Heimdall free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Heimdall is open-source and free to use. You can download it for free from our GitHub repository."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What programming languages are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Heimdall supports various programming languages and platforms through integration with Android UI Automator for Android and Selenium WebDriver for Web testing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Heimdall require coding for basic usage?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No! Heimdall is designed to be used with natural human language. You only need to write scenarios in easy-to-understand language, and Heimdall will convert them into test code."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Heimdall suitable for beginners?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Heimdall comes with a user-friendly interface and complete documentation. Even beginners can use Heimdall in minutes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Heimdall support CI/CD integration?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Heimdall supports integration with various CI/CD platforms such as GitHub Actions, GitLab CI, Jenkins, and more for automated testing in pipelines."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ===== Manifest ===== -->
+  <link rel="manifest" href="/manifest.json" />
 
   <!-- ===== Fonts ===== -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
+  <!-- WingDeck design system: system font stack (-apple-system / ui-monospace), no web fonts -->
 </head>
 
 <body>
   <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+  <script type="module" src="./src/index.tsx"></script>
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
     data-cf-beacon='{"token": "644dc1e1dd574aca9fffa70e0c595f13"}'>

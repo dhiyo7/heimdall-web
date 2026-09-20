@@ -2,84 +2,90 @@
 export default {
   content: [
     "./index.html",
-    "./*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./modules/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Space Grotesk"', 'sans-serif'],
-        mono: ['"Space Mono"', 'monospace'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {
-        'retro-bg': '#fcfcfd',
-        'retro-dark-bg': '#09090b',
-        'retro-border': '#e4e4e7',
-        brand: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          50: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-          950: '#2e1065',
-        }
+        // Semantic tokens — resolve via CSS variables at runtime
+        background: "var(--color-background)",
+        surface: "var(--color-surface)",
+        'surface-muted': "var(--color-surface-muted)",
+        foreground: "var(--color-text-primary)",
+        'text-primary': "var(--color-text-primary)",
+        'text-secondary': "var(--color-text-secondary)",
+        'text-muted': "var(--color-text-muted)",
+        primary: {
+          DEFAULT: "var(--color-primary)",
+          hover: "var(--color-primary-hover)",
+        },
+        secondary: "var(--color-secondary)",
+        accent: "var(--color-accent)",
+        warning: "var(--color-warning)",
+        success: "var(--color-success)",
+        danger: "var(--color-danger)",
+        info: "var(--color-info)",
+        border: "var(--color-border)",
+      },
+      maxWidth: {
+        constrained: "var(--container-max-width)",
+      },
+      padding: {
+        constrained: "var(--container-padding)",
+      },
+      borderRadius: {
+        xs: "var(--radius-xs)",
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        xl: "var(--radius-xl)",
+        "2xl": "var(--radius-2xl)",
+        full: "var(--radius-full)",
       },
       boxShadow: {
-        'retro-sm': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
-        'retro': '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)',
-        'retro-lg': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
-        'retro-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        'retro-gray': '0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.03)',
-        'glow-emerald': '0 0 30px -5px rgba(99, 102, 241, 0.15)',
-        'glow-purple': '0 0 30px -5px rgba(168, 85, 247, 0.15)',
-        'glow-green': '0 0 30px -5px rgba(34, 197, 94, 0.15)',
+        xs: "var(--shadow-xs)",
+        sm: "var(--shadow-sm)",
+        md: "var(--shadow-md)",
+        lg: "var(--shadow-lg)",
+        xl: "var(--shadow-xl)",
+        inner: "var(--shadow-inner)",
+        "inner-2": "var(--shadow-inner-2)",
       },
-      animation: {
-        blob: "blob 10s infinite",
-        'fade-in': 'fadeIn 0.6s ease-out forwards',
-        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-        'pulse-slow': 'pulseSlow 3s infinite ease-in-out',
-        'float': 'float 4s ease-in-out infinite',
+      spacing: {
+        "3xs": "var(--spacing-3xs)",
+        "2xs": "var(--spacing-2xs)",
+        xs: "var(--spacing-xs)",
+        sm: "var(--spacing-sm)",
+        md: "var(--spacing-md)",
+        lg: "var(--spacing-lg)",
+        xl: "var(--spacing-xl)",
+        "2xl": "var(--spacing-2xl)",
+        "3xl": "var(--spacing-3xl)",
+        "4xl": "var(--spacing-4xl)",
+        "5xl": "var(--spacing-5xl)",
+        section: "var(--spacing-section)",
       },
-      keyframes: {
-        blob: {
-          "0%": {
-            transform: "translate(0px, 0px) scale(1)",
-          },
-          "33%": {
-            transform: "translate(30px, -30px) scale(1.05)",
-          },
-          "66%": {
-            transform: "translate(-20px, 20px) scale(0.95)",
-          },
-          "100%": {
-            transform: "translate(0px, 0px) scale(1)",
-          },
-        },
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        pulseSlow: {
-          '0%, 100%': { opacity: '0.4' },
-          '50%': { opacity: '0.8' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
-        }
+      fontSize: {
+        h1: ["var(--font-size-h1)", { lineHeight: "96.5px", fontWeight: "800" }],
+        h2: ["var(--font-size-h2)", { lineHeight: "52px", fontWeight: "800" }],
+        display: ["var(--font-size-display)", { lineHeight: "52px", fontWeight: "800" }],
+        h3: ["var(--font-size-h3)", { lineHeight: "50.5px", fontWeight: "800", letterSpacing: "-0.92px" }],
+        h4: ["var(--font-size-h4)", { lineHeight: "42px", fontWeight: "900", letterSpacing: "-1.4px" }],
+        h5: ["var(--font-size-h5)", { lineHeight: "49px", fontWeight: "800", letterSpacing: "-0.76px" }],
+        h6: ["var(--font-size-h6)", { lineHeight: "37px", fontWeight: "800", letterSpacing: "-1.19px" }],
+        "heading-32px": ["var(--font-size-heading-32px)", { lineHeight: "33.5px", fontWeight: "800", letterSpacing: "-1.12px" }],
+        "heading-27px": ["var(--font-size-heading-27px)", { lineHeight: "31px", fontWeight: "800" }],
+        "heading-23px": ["var(--font-size-heading-23px)", { lineHeight: "37px", fontWeight: "800" }],
+        body: ["var(--font-size-body)", { lineHeight: "20px", fontWeight: "400", letterSpacing: "-0.18px" }],
+      },
+      transitionTimingFunction: {
+        // From WingDeck measured eased timing
+        brand: 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
     },
   },
