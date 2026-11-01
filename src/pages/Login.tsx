@@ -1,20 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail, ArrowLeft } from 'lucide-react';
 import { WindowCard } from '../components/ui/WindowCard';
 import { Button } from '../components/ui/Button';
 import { useI18n } from '../i18n/I18nContext';
+import { useAuth } from '../lib/auth/AuthContext';
+import { ApiError } from '../lib/api/client';
 
 export const Login: React.FC = () => {
   const { t } = useI18n();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setBusy(true);
+    setError(null);
+    try {
+      await login(email, password);
+      navigate(params.get('next') ?? '/app', { replace: true });
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Gagal masuk. Coba lagi.');
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -50,6 +65,7 @@ export const Login: React.FC = () => {
                     id="login-email"
                     type="email"
                     required
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t('auth.email_placeholder')}
@@ -59,26 +75,19 @@ export const Login: React.FC = () => {
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label
-                    htmlFor="login-password"
-                    className="block font-mono text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider"
-                  >
-                    {t('auth.password_label')}
-                  </label>
-                  <Link
-                    to="/forgot-password"
-                    className="font-sans text-xs font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
-                  >
-                    {t('auth.forgot_password')}
-                  </Link>
-                </div>
+                <label
+                  htmlFor="login-password"
+                  className="block font-mono text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-2"
+                >
+                  {t('auth.password_label')}
+                </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-muted)]" />
                   <input
                     id="login-password"
                     type={showPassword ? 'text' : 'password'}
                     required
+                    autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t('auth.password_placeholder')}
@@ -95,31 +104,29 @@ export const Login: React.FC = () => {
                 </div>
               </div>
 
-              {submitted && (
+              {error && (
                 <p
-                  role="status"
-                  className="font-sans text-xs text-[var(--color-success)] bg-[var(--color-success)]/10 border border-[var(--color-success)]/30 rounded-md px-3 py-2"
+                  role="alert"
+                  className="font-sans text-xs text-[var(--color-danger)] bg-[var(--color-danger)]/10 border border-[var(--color-danger)]/30 rounded-md px-3 py-2"
                 >
-                  {t('auth.login_demo_notice')}
+                  {error}
                 </p>
               )}
 
-              <Button type="submit" variant="primary" size="md" className="w-full">
-                {t('auth.sign_in')}
+              <Button type="submit" variant="primary" size="md" className="w-full" disabled={busy}>
+                {busy ? 'Memproses…' : t('auth.sign_in')}
               </Button>
             </form>
 
             <div className="mt-8 pt-6 border-t border-[var(--color-border)] text-center space-y-4">
               <p className="font-sans text-xs text-[var(--color-text-secondary)]">
                 {t('auth.no_account')}{' '}
-                <a
-                  href="https://github.com/dhiyo7/heimdall"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/register"
                   className="font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
                 >
                   {t('auth.sign_up')}
-                </a>
+                </Link>
               </p>
               <Link
                 to="/"

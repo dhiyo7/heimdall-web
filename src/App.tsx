@@ -1,6 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { I18nProvider } from './i18n/I18nContext';
+import { AuthProvider, RequireAuth } from './lib/auth/AuthContext';
+import { ToastProvider } from './modules/console/Toast';
 import { Navbar } from './modules/layout/Navbar';
 import { Hero } from './modules/landing/Hero';
 import { Features } from './modules/landing/Features';
@@ -14,6 +16,20 @@ import { FAQSection } from './modules/landing/FAQSection';
 import { Footer } from './modules/layout/Footer';
 import { ScrollToTop } from './components/ui/ScrollToTop';
 import { NotFound } from './pages/NotFound';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+
+// Console dimuat terpisah supaya landing tidak ikut membesar.
+const ConsoleLayout = lazy(() => import('./modules/console/ConsoleLayout'));
+const OverviewPage = lazy(() => import('./modules/console/pages/OverviewPage'));
+const WorkspacesPage = lazy(() => import('./modules/console/pages/WorkspacesPage'));
+const WorkspaceDetailPage = lazy(() => import('./modules/console/pages/WorkspaceDetailPage'));
+const MembersPage = lazy(() => import('./modules/console/pages/MembersPage'));
+const InvitationsPage = lazy(() => import('./modules/console/pages/InvitationsPage'));
+const DevicesPage = lazy(() => import('./modules/console/pages/DevicesPage'));
+const SettingsPage = lazy(() => import('./modules/console/pages/SettingsPage'));
+const DeviceApprovePage = lazy(() => import('./pages/DeviceApprovePage'));
+const InvitationAcceptPage = lazy(() => import('./pages/InvitationAcceptPage'));
 
 const DOCS_URL = 'https://docs.theheimdall.com/';
 
@@ -53,21 +69,81 @@ const DocsRedirect = () => {
   );
 };
 
+const SuspenseFallback = () => (
+  <div className="flex min-h-[40vh] items-center justify-center">
+    <p className="font-mono text-sm text-[var(--color-text-muted)]">memuat…</p>
+  </div>
+);
+
+/** Kerangka halaman publik: navbar + footer landing. */
+const SiteChrome = () => (
+  <>
+    <Navbar />
+    <Suspense fallback={<SuspenseFallback />}>
+      <Outlet />
+    </Suspense>
+    <Footer />
+    <ScrollToTop />
+  </>
+);
+
 const App: React.FC = () => {
   return (
     <I18nProvider>
-      <Router>
-        <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] selection:bg-[var(--color-primary)] selection:text-white transition-colors duration-300">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/documentation" element={<DocsRedirect />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
-          <ScrollToTop />
-        </div>
-      </Router>
+      <AuthProvider>
+        <ToastProvider>
+          <Router>
+            <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] selection:bg-[var(--color-primary)] selection:text-white transition-colors duration-300">
+              <Routes>
+                <Route element={<SiteChrome />}>
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/documentation" element={<DocsRedirect />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route
+                    path="/device"
+                    element={
+                      <RequireAuth>
+                        <DeviceApprovePage />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="/invitations/:token"
+                    element={
+                      <RequireAuth>
+                        <InvitationAcceptPage />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+
+                <Route
+                  path="/app"
+                  element={
+                    <RequireAuth>
+                      <Suspense fallback={<SuspenseFallback />}>
+                        <ConsoleLayout />
+                      </Suspense>
+                    </RequireAuth>
+                  }
+                >
+                  <Route index element={<OverviewPage />} />
+                  <Route path="workspaces" element={<WorkspacesPage />} />
+                  <Route path="workspaces/:id" element={<WorkspaceDetailPage />} />
+                  <Route path="members" element={<MembersPage />} />
+                  <Route path="invitations" element={<InvitationsPage />} />
+                  <Route path="devices" element={<DevicesPage />} />
+                  <Route path="settings" element={<SettingsPage />} />
+                  <Route path="scripts" element={<OverviewPage />} />
+                  <Route path="reports" element={<OverviewPage />} />
+                </Route>
+              </Routes>
+            </div>
+          </Router>
+        </ToastProvider>
+      </AuthProvider>
     </I18nProvider>
   );
 };
