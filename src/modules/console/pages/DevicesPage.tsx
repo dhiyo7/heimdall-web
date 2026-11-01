@@ -142,7 +142,7 @@ const DevicesPage: React.FC = () => {
           </Button>
         </div>
       ) : (
-        <WindowCard title="devices.list" contentClassName="p-2">
+        <WindowCard title="Daftar perangkat" contentClassName="p-2">
           <DataTable
             columns={columns}
             rows={rows}

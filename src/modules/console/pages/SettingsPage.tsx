@@ -78,7 +78,7 @@ const SettingsContent: React.FC = () => {
         </p>
       </header>
 
-      <WindowCard title="settings.org">
+      <WindowCard title="Organisasi">
         <form onSubmit={save} className="space-y-4">
           <div>
             <label htmlFor="org-name" className={LABEL}>
@@ -117,7 +117,7 @@ const SettingsContent: React.FC = () => {
         </form>
       </WindowCard>
 
-      <WindowCard title="settings.subscription" className="mt-4">
+      <WindowCard title="Langganan & Pembayaran" className="mt-4">
         <p className="font-sans text-sm text-[var(--color-text-secondary)]">
           Langganan &amp; pembayaran belum tersedia.
         </p>
@@ -127,7 +127,7 @@ const SettingsContent: React.FC = () => {
       </WindowCard>
 
       {role === 'OWNER' && (
-        <WindowCard title="settings.danger" className="mt-4 !border-[var(--color-danger)]/40">
+        <WindowCard title="Zona berbahaya" className="mt-4 !border-[var(--color-danger)]/40">
           <p className="font-sans text-sm text-[var(--color-text-secondary)]">
             Menghapus organisasi akan menghapus seluruh workspace, anggota, dan data di dalamnya
             secara permanen.

@@ -109,7 +109,7 @@ const MembersPage: React.FC = () => {
         </p>
       </header>
 
-      <WindowCard title="members.list" noPadding>
+      <WindowCard title="Daftar anggota" noPadding>
         <div className="p-4">
           {error && (
             <p role="alert" className="mb-3 font-sans text-xs text-[var(--color-danger)]">

@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { I18nProvider } from './i18n/I18nContext';
 import { AuthProvider, RequireAuth } from './lib/auth/AuthContext';
+import { RequireRole } from './modules/console/RequireRole';
 import { ToastProvider } from './modules/console/Toast';
 import { Navbar } from './modules/layout/Navbar';
 import { Hero } from './modules/landing/Hero';
@@ -28,8 +29,12 @@ const MembersPage = lazy(() => import('./modules/console/pages/MembersPage'));
 const InvitationsPage = lazy(() => import('./modules/console/pages/InvitationsPage'));
 const DevicesPage = lazy(() => import('./modules/console/pages/DevicesPage'));
 const SettingsPage = lazy(() => import('./modules/console/pages/SettingsPage'));
+const ComingSoonPage = lazy(() => import('./modules/console/pages/ComingSoonPage'));
 const DeviceApprovePage = lazy(() => import('./pages/DeviceApprovePage'));
 const InvitationAcceptPage = lazy(() => import('./pages/InvitationAcceptPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
+const VerifyEmailPage = lazy(() => import('./pages/VerifyEmailPage'));
 
 const DOCS_URL = 'https://docs.theheimdall.com/';
 
@@ -100,6 +105,9 @@ const App: React.FC = () => {
                   <Route path="/documentation" element={<DocsRedirect />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
+                  <Route path="/verify-email" element={<VerifyEmailPage />} />
                   <Route
                     path="/device"
                     element={
@@ -133,11 +141,41 @@ const App: React.FC = () => {
                   <Route path="workspaces" element={<WorkspacesPage />} />
                   <Route path="workspaces/:id" element={<WorkspaceDetailPage />} />
                   <Route path="members" element={<MembersPage />} />
-                  <Route path="invitations" element={<InvitationsPage />} />
+                  <Route
+                    path="invitations"
+                    element={
+                      <RequireRole roles={['OWNER', 'ADMIN']}>
+                        <InvitationsPage />
+                      </RequireRole>
+                    }
+                  />
                   <Route path="devices" element={<DevicesPage />} />
-                  <Route path="settings" element={<SettingsPage />} />
-                  <Route path="scripts" element={<OverviewPage />} />
-                  <Route path="reports" element={<OverviewPage />} />
+                  <Route
+                    path="settings"
+                    element={
+                      <RequireRole roles={['OWNER', 'ADMIN']}>
+                        <SettingsPage />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="scripts"
+                    element={
+                      <ComingSoonPage
+                        title="Script"
+                        description="Script pengujian otomatis akan tersedia di sini. Fitur ini masih dalam pengembangan."
+                      />
+                    }
+                  />
+                  <Route
+                    path="reports"
+                    element={
+                      <ComingSoonPage
+                        title="Laporan"
+                        description="Laporan hasil pengujian akan tersedia di sini. Fitur ini masih dalam pengembangan."
+                      />
+                    }
+                  />
                 </Route>
               </Routes>
             </div>

@@ -36,7 +36,7 @@ cp .env.example .env
 # Edit .env dengan nilai yang sesuai
 
 # Wajib diisi:
-VITE_API_BASE_URL=http://localhost:3000
+VITE_API_BASE_URL=http://localhost:8090
 VITE_AI_PROVIDER=ollama  # atau openai/gemini
 OPENAI_API_KEY=sk-...  # jika menggunakan OpenAI
 ```
@@ -52,7 +52,7 @@ npm run docs:dev
 npm run dev
 ```
 
-Aplikasi akan tersedia di `http://localhost:5173` (Vite default) atau `http://localhost:3000` (development server).
+Aplikasi akan tersedia di `http://localhost:5173` (port tetap, dipaksa `strictPort` di `vite.config.ts` agar tautan email cloud tidak salah redirect).
 
 ### 1.5 Setup Device Android (Opsional tapi Disarankan)
 

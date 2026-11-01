@@ -1,6 +1,12 @@
 export type Role = 'OWNER' | 'ADMIN' | 'MEMBER';
 
-export type User = { id: string; email: string; fullName: string | null };
+export type User = {
+  id: string;
+  email: string;
+  fullName: string | null;
+  /** Hanya dikirim backend bila status verifikasi tersedia. */
+  emailVerified?: boolean;
+};
 
 /** `role` = peran user di organisasi tersebut. */
 export type Organization = {

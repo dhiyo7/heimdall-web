@@ -117,7 +117,7 @@ const InvitationsContent: React.FC = () => {
       </header>
 
       <div className="grid gap-4 lg:grid-cols-[380px_1fr]">
-        <WindowCard title="invitations.new">
+        <WindowCard title="Buat undangan">
           <form onSubmit={submit} className="space-y-4">
             <div>
               <label htmlFor="inv-email" className={LABEL}>
@@ -174,7 +174,7 @@ const InvitationsContent: React.FC = () => {
           )}
         </WindowCard>
 
-        <WindowCard title="invitations.list" noPadding>
+        <WindowCard title="Daftar undangan" noPadding>
           <div className="p-4">
             {error && (
               <p role="alert" className="mb-3 font-sans text-xs text-[var(--color-danger)]">

@@ -128,6 +128,14 @@ export const Login: React.FC = () => {
                   {t('auth.sign_up')}
                 </Link>
               </p>
+              <p>
+                <Link
+                  to="/forgot-password"
+                  className="font-sans text-xs font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
+                >
+                  Lupa password?
+                </Link>
+              </p>
               <Link
                 to="/"
                 className="inline-flex items-center justify-center gap-2 font-sans text-xs font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"

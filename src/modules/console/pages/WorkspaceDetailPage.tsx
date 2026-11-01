@@ -101,7 +101,7 @@ const WorkspaceDetailPage: React.FC = () => {
         </Button>
       </header>
 
-      <WindowCard title="workspace.detail">
+      <WindowCard title="Detail workspace">
         <form onSubmit={save} className="space-y-4">
           <div>
             <label htmlFor="wd-name" className={LABEL}>
@@ -145,7 +145,7 @@ const WorkspaceDetailPage: React.FC = () => {
       </WindowCard>
 
       {canManage && (
-        <WindowCard title="workspace.danger" className="mt-4 !border-[var(--color-danger)]/40">
+        <WindowCard title="Zona berbahaya" className="mt-4 !border-[var(--color-danger)]/40">
           <p className="font-sans text-sm text-[var(--color-text-secondary)]">
             Menghapus workspace akan menghapus seluruh isinya secara permanen. Tindakan ini tidak
             bisa dibatalkan.

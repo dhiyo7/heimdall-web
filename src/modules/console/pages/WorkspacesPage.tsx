@@ -135,7 +135,7 @@ const WorkspacesPage: React.FC = () => {
         )}
       </header>
 
-      <WindowCard title="workspaces.list" noPadding>
+      <WindowCard title="Daftar workspace" noPadding>
         <div className="p-4">
           {error && (
             <p role="alert" className="mb-3 font-sans text-xs text-[var(--color-danger)]">
@@ -162,7 +162,7 @@ const WorkspacesPage: React.FC = () => {
       {open && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 px-4">
           <div role="dialog" aria-modal="true" aria-label="Buat workspace" className="w-full max-w-md">
-            <WindowCard title="workspaces.new">
+            <WindowCard title="Buat workspace">
               <form onSubmit={submit} className="space-y-4">
                 <div>
                   <label htmlFor="ws-name" className={LABEL}>

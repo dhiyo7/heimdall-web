@@ -13,6 +13,8 @@ const PAGE_LABEL: Record<string, string> = {
   '/app/invitations': 'Undangan',
   '/app/devices': 'Perangkat',
   '/app/settings': 'Pengaturan',
+  '/app/scripts': 'Script',
+  '/app/reports': 'Laporan',
 };
 
 const pageLabel = (pathname: string) =>

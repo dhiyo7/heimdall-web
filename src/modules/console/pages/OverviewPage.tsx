@@ -84,22 +84,22 @@ const OverviewPage: React.FC = () => {
       {!loading && !error && counts && (
         <>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <StatCard title="anggota.count" label="Anggota">
+            <StatCard title="Anggota" label="Anggota">
               <p className="font-mono text-3xl font-extrabold text-[var(--color-text-primary)]">
                 {counts.members}
               </p>
             </StatCard>
-            <StatCard title="workspace.count" label="Workspace">
+            <StatCard title="Workspace" label="Workspace">
               <p className="font-mono text-3xl font-extrabold text-[var(--color-text-primary)]">
                 {counts.workspaces}
               </p>
             </StatCard>
-            <StatCard title="perangkat.count" label="Perangkat">
+            <StatCard title="Perangkat" label="Perangkat">
               <p className="font-mono text-3xl font-extrabold text-[var(--color-text-primary)]">
                 {counts.devices}
               </p>
             </StatCard>
-            <StatCard title="peran.anda" label="Peran Anda">
+            <StatCard title="Peran Anda" label="Peran Anda">
               <div className="mt-2">
                 <RoleBadge role={activeOrg.role} />
               </div>
@@ -107,7 +107,7 @@ const OverviewPage: React.FC = () => {
           </div>
 
           <div className="mt-4">
-            <WindowCard title="aksi.cepat">
+            <WindowCard title="Aksi cepat">
               <div className="flex flex-wrap gap-2">
                 <Button variant="secondary" size="sm" onClick={() => navigate('/app/workspaces')}>
                   Buat workspace
