@@ -40,8 +40,8 @@ const GROUPS: Group[] = [
   {
     title: 'KONTEN',
     items: [
-      { label: 'Script', icon: FileCode2, to: '/app/scripts', soon: true },
-      { label: 'Laporan', icon: FileBarChart, to: '/app/reports', soon: true },
+      { label: 'Script', icon: FileCode2, to: '/app/scripts' },
+      { label: 'Laporan', icon: FileBarChart, to: '/app/reports' },
     ],
   },
   {

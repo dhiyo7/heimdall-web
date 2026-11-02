@@ -15,9 +15,11 @@ type Props<T> = {
   rowKey: (row: T) => string;
   loading?: boolean;
   empty?: React.ReactNode;
+  /** Bila diisi, baris bisa diklik (selain tombol di dalam sel). */
+  onRowClick?: (row: T) => void;
 };
 
-export function DataTable<T>({ columns, rows, rowKey, loading, empty }: Props<T>) {
+export function DataTable<T>({ columns, rows, rowKey, loading, empty, onRowClick }: Props<T>) {
   if (loading) {
     return (
       <div className="space-y-2 p-1" aria-busy="true">
@@ -50,7 +52,10 @@ export function DataTable<T>({ columns, rows, rowKey, loading, empty }: Props<T>
           {rows.map((row) => (
             <tr
               key={rowKey(row)}
-              className="border-b border-[var(--color-border)]/60 last:border-0 hover:bg-[var(--color-surface)]/60 transition-colors"
+              onClick={onRowClick ? () => onRowClick(row) : undefined}
+              className={`border-b border-[var(--color-border)]/60 last:border-0 hover:bg-[var(--color-surface)]/60 transition-colors ${
+                onRowClick ? 'cursor-pointer' : ''
+              }`}
             >
               {columns.map((c) => (
                 <td

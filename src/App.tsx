@@ -28,9 +28,11 @@ const WorkspaceDetailPage = lazy(() => import('./modules/console/pages/Workspace
 const MembersPage = lazy(() => import('./modules/console/pages/MembersPage'));
 const InvitationsPage = lazy(() => import('./modules/console/pages/InvitationsPage'));
 const DevicesPage = lazy(() => import('./modules/console/pages/DevicesPage'));
+const ScriptsPage = lazy(() => import('./modules/console/pages/ScriptsPage'));
+const ReportsPage = lazy(() => import('./modules/console/pages/ReportsPage'));
 const SettingsPage = lazy(() => import('./modules/console/pages/SettingsPage'));
-const ComingSoonPage = lazy(() => import('./modules/console/pages/ComingSoonPage'));
 const DeviceApprovePage = lazy(() => import('./pages/DeviceApprovePage'));
+const PublicReportPage = lazy(() => import('./pages/PublicReportPage'));
 const InvitationAcceptPage = lazy(() => import('./pages/InvitationAcceptPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
@@ -124,6 +126,7 @@ const App: React.FC = () => {
                       </RequireAuth>
                     }
                   />
+                  <Route path="/r/:token" element={<PublicReportPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>
 
@@ -158,24 +161,8 @@ const App: React.FC = () => {
                       </RequireRole>
                     }
                   />
-                  <Route
-                    path="scripts"
-                    element={
-                      <ComingSoonPage
-                        title="Script"
-                        description="Script pengujian otomatis akan tersedia di sini. Fitur ini masih dalam pengembangan."
-                      />
-                    }
-                  />
-                  <Route
-                    path="reports"
-                    element={
-                      <ComingSoonPage
-                        title="Laporan"
-                        description="Laporan hasil pengujian akan tersedia di sini. Fitur ini masih dalam pengembangan."
-                      />
-                    }
-                  />
+                  <Route path="scripts" element={<ScriptsPage />} />
+                  <Route path="reports" element={<ReportsPage />} />
                 </Route>
               </Routes>
             </div>

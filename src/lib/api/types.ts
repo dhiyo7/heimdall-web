@@ -61,3 +61,60 @@ export type AuthResult = {
   accessToken: string;
   refreshToken: string;
 };
+
+export type ScriptType = 'ui' | 'api';
+
+export type Visibility = 'private' | 'workspace' | 'link';
+
+export type Script = {
+  id: string;
+  workspaceId: string;
+  name: string;
+  slug: string;
+  type: ScriptType;
+  tags: string[];
+  visibility: Visibility;
+  ownerUserId: string;
+  latestVersionId: string | null;
+  latestVersionNo?: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ScriptVersion = {
+  id: string;
+  versionNo: number;
+  contentHash: string;
+  note: string | null;
+  authorUserId: string;
+  createdAt: string;
+};
+
+export type CloudRun = {
+  id: string;
+  runRef: string;
+  /** Backend bebas menambah status baru; UI memetakan yang dikenal dan memakai nilai mentah lainnya. */
+  status: string;
+  passCount: number | null;
+  failCount: number | null;
+  durationMs: number | null;
+  deviceLabel: string | null;
+  startedAt: string | null;
+  finishedAt: string | null;
+};
+
+export type CloudReport = {
+  id: string;
+  runId: string;
+  visibility: Visibility;
+  expiresAt: string | null;
+  createdAt: string;
+  createdBy?: string | null;
+};
+
+export type Artifact = {
+  id: string;
+  type: string;
+  mime: string;
+  url: string;
+};
