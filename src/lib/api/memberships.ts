@@ -19,8 +19,13 @@ export const createInvitation = (orgId: string, body: { email: string; role?: Ro
 export const cancelInvitation = (orgId: string, id: string) =>
   apiDelete(`/v1/organizations/${orgId}/invitations/${id}`);
 
-export const acceptInvitation = (token: string) =>
-  apiPost<{ organization: Pick<Organization, 'id' | 'name' | 'slug'>; role: Role }>(
+export const acceptInvitation = (token: string, workspaceId?: string) =>
+  apiPost<{
+    organization: Pick<Organization, 'id' | 'name' | 'slug'>;
+    role: Role;
+    workspace?: { id: string; name: string; slug: string } | null;
+    workspaces?: { id: string; name: string; slug: string }[];
+  }>(
     '/v1/organizations/invitations/accept',
-    { token },
+    workspaceId ? { token, workspaceId } : { token },
   );

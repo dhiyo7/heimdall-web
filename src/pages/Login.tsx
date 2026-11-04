@@ -12,6 +12,7 @@ export const Login: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  const next = params.get('next');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,7 @@ export const Login: React.FC = () => {
     setError(null);
     try {
       await login(email, password);
-      navigate(params.get('next') ?? '/app', { replace: true });
+      navigate(next ?? '/app', { replace: true });
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Gagal masuk. Coba lagi.');
     } finally {
@@ -122,12 +123,18 @@ export const Login: React.FC = () => {
               <p className="font-sans text-xs text-[var(--color-text-secondary)]">
                 {t('auth.no_account')}{' '}
                 <Link
-                  to="/register"
+                  to={next ? `/register?next=${encodeURIComponent(next)}` : '/register'}
                   className="font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
                 >
                   {t('auth.sign_up')}
                 </Link>
               </p>
+              {next?.startsWith('/invitations/') && (
+                <p className="rounded-md border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/10 px-3 py-2 font-sans text-xs text-[var(--color-primary)]">
+                  Anda diundang ke sebuah organisasi. Masuk atau daftar dulu, lalu undangan akan
+                  terbuka otomatis.
+                </p>
+              )}
               <p>
                 <Link
                   to="/forgot-password"

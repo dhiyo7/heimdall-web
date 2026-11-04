@@ -1,5 +1,5 @@
 import { apiDelete, apiGet, apiPost } from './client';
-import type { Artifact, CloudReport, CloudRun, Visibility } from './types';
+import type { Artifact, CloudReport, CloudRun, ReportListItem, Visibility } from './types';
 
 export type CreateRunInput = {
   workspaceId: string;
@@ -30,6 +30,9 @@ export const createRun = (body: CreateRunInput) => apiPost<{ run: CloudRun }>('/
 
 export const listRuns = (workspaceId: string) =>
   apiGet<{ runs: CloudRun[] }>(`/v1/workspaces/${workspaceId}/runs`);
+
+export const listReports = (workspaceId: string) =>
+  apiGet<{ items: ReportListItem[] }>(`/v1/workspaces/${workspaceId}/reports`);
 
 export const publishReport = (runId: string, body: PublishReportInput = {}) =>
   apiPost<{ report: CloudReport; token: string; shareUrl: string; expiresAt: string | null }>(

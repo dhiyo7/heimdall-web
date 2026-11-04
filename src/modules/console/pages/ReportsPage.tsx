@@ -4,8 +4,8 @@ import { Button } from '../../../components/ui/Button';
 import { RunStatusBadge, formatDuration } from '../../../components/ui/RunStatusBadge';
 import { WindowCard } from '../../../components/ui/WindowCard';
 import { ApiError } from '../../../lib/api/client';
-import { listRuns, publishReport, unpublishReport } from '../../../lib/api/reports';
-import type { CloudRun } from '../../../lib/api/types';
+import { listReports, publishReport, unpublishReport } from '../../../lib/api/reports';
+import type { ReportListItem } from '../../../lib/api/types';
 import { useActiveWorkspace } from '../../../lib/useActiveWorkspace';
 import { useApi } from '../../../lib/useApi';
 import { DataTable, type Column } from '../DataTable';
@@ -21,20 +21,14 @@ const LABEL =
 const asMessage = (err: unknown, fallback: string) =>
   err instanceof ApiError ? err.message : fallback;
 
-type Published = { reportId: string; shareUrl: string; expiresAt: string | null };
-
 const ReportsPage: React.FC = () => {
   const { push } = useToast();
   const active = useActiveWorkspace();
   const { data, loading, error, reload } = useApi(
-    () => (active.workspaceId ? listRuns(active.workspaceId) : Promise.resolve({ runs: [] })),
+    () => (active.workspaceId ? listReports(active.workspaceId) : Promise.resolve({ items: [] })),
     [active.workspaceId],
   );
 
-  // ponytail: belum ada endpoint daftar report per workspace, jadi status "sudah
-  // dipublikasikan" hanya bertahan selama halaman ini terbuka. Ganti dengan data
-  // server begitu endpoint tersebut tersedia.
-  const [published, setPublished] = useState<Record<string, Published>>({});
   const [busyRun, setBusyRun] = useState<string | null>(null);
 
   if (active.loading) {
@@ -61,19 +55,12 @@ const ReportsPage: React.FC = () => {
     );
   }
 
-  const publish = async (run: CloudRun) => {
-    setBusyRun(run.id);
+  const publish = async (item: ReportListItem) => {
+    setBusyRun(item.id);
     try {
-      const result = await publishReport(run.id);
-      setPublished((prev) => ({
-        ...prev,
-        [run.id]: {
-          reportId: result.report.id,
-          shareUrl: result.shareUrl,
-          expiresAt: result.expiresAt,
-        },
-      }));
+      await publishReport(item.id);
       push('Laporan dipublikasikan.');
+      reload();
     } catch (err) {
       push(asMessage(err, 'Gagal mempublikasikan laporan.'), 'error');
     } finally {
@@ -81,18 +68,13 @@ const ReportsPage: React.FC = () => {
     }
   };
 
-  const unpublish = async (run: CloudRun) => {
-    const entry = published[run.id];
-    if (!entry) return;
-    setBusyRun(run.id);
+  const unpublish = async (item: ReportListItem) => {
+    if (!item.report) return;
+    setBusyRun(item.id);
     try {
-      await unpublishReport(entry.reportId);
-      setPublished((prev) => {
-        const next = { ...prev };
-        delete next[run.id];
-        return next;
-      });
+      await unpublishReport(item.report.id);
       push('Publikasi ditarik.');
+      reload();
     } catch (err) {
       push(asMessage(err, 'Gagal menarik publikasi.'), 'error');
     } finally {
@@ -109,7 +91,7 @@ const ReportsPage: React.FC = () => {
     }
   };
 
-  const columns: Column<CloudRun>[] = [
+  const columns: Column<ReportListItem>[] = [
     {
       key: 'runRef',
       label: 'Run',
@@ -127,7 +109,7 @@ const ReportsPage: React.FC = () => {
       key: 'counts',
       label: 'Lulus / Gagal',
       mono: true,
-      render: (r) => `${r.passCount ?? '—'} / ${r.failCount ?? '—'}`,
+      render: (r) => `${r.passed} / ${r.failed}`,
     },
     {
       key: 'durationMs',
@@ -136,32 +118,33 @@ const ReportsPage: React.FC = () => {
       render: (r) => formatDuration(r.durationMs),
     },
     {
-      key: 'deviceLabel',
+      key: 'device',
       label: 'Perangkat',
-      render: (r) => r.deviceLabel ?? '—',
+      render: (r) => r.device ?? '—',
     },
     {
       key: 'time',
       label: 'Waktu',
       mono: true,
-      render: (r) => {
-        const value = r.finishedAt ?? r.startedAt;
-        return value ? new Date(value).toLocaleString('id-ID') : '—';
-      },
+      render: (r) => new Date(r.createdAt).toLocaleString('id-ID'),
     },
     {
       key: 'actions',
       label: 'Aksi',
       render: (r) => {
-        const entry = published[r.id];
-        if (entry) {
+        const report = r.report;
+        if (report?.isPublished && report.shareToken) {
+          const shareUrl = `${window.location.origin}/r/${report.shareToken}`;
           return (
             <div className="flex flex-col gap-1">
               <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center rounded-md border border-[var(--color-success)]/40 bg-[var(--color-success)]/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[var(--color-success)]">
+                  Publik
+                </span>
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => copy(entry.shareUrl)}
+                  onClick={() => copy(shareUrl)}
                 >
                   Salin tautan
                 </Button>
@@ -175,16 +158,16 @@ const ReportsPage: React.FC = () => {
                 </Button>
               </div>
               <a
-                href={entry.shareUrl}
+                href={shareUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="break-all font-mono text-[10px] text-[var(--color-primary)] hover:underline"
               >
-                {entry.shareUrl}
+                {shareUrl}
               </a>
-              {entry.expiresAt && (
+              {report.expiresAt && (
                 <span className="font-mono text-[10px] text-[var(--color-text-muted)]">
-                  Kedaluwarsa {new Date(entry.expiresAt).toLocaleDateString('id-ID')}
+                  Kedaluwarsa {new Date(report.expiresAt).toLocaleDateString('id-ID')}
                 </span>
               )}
             </div>
@@ -247,7 +230,7 @@ const ReportsPage: React.FC = () => {
         <WindowCard title="Daftar run" contentClassName="p-2">
           <DataTable
             columns={columns}
-            rows={data?.runs ?? []}
+            rows={data?.items ?? []}
             rowKey={(r) => r.id}
             loading={loading}
             empty={

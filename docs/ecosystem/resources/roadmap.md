@@ -41,6 +41,15 @@ Dokumen ini menjelaskan arah pengembangan **Heimdall**: versi saat ini, fitur ya
 | Visual Regression Testing | 🔴 High | 🚧 In Progress | May 2024 |
 | Data-Driven Testing | 🟡 Medium | 📋 Planned | May 2024 |
 | Test Center Module (Data Center) | 🟡 Medium | 📋 Planned | June 2024 |
+| Cloud Sync & Workspace (SPEC-26) | 🔴 High | ✅ Done | 2026-11-02 |
+
+#### Detail: Cloud Sync & Workspace (SPEC-26)
+
+Sinkronisasi Desktop → cloud Heimdall kini mengenal **workspace** dan **hirarki folder**:
+
+- Undangan mengembalikan daftar workspace organisasi + workspace terpilih.
+- Hirarki Platform → Application → Version → Module di Desktop ikut terkirim sebagai folder cloud (idempotent per path).
+- Konten versi script disimpan di object storage, bukan lagi kolom database.
 
 #### Detail: Self-Healing Selector Engine
 

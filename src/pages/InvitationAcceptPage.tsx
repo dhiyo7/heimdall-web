@@ -39,6 +39,8 @@ const InvitationAcceptPage: React.FC = () => {
   const [result, setResult] = useState<{
     organization: { id: string; name: string; slug: string };
     role: Role;
+    workspace?: { id: string; name: string; slug: string } | null;
+    workspaces?: { id: string; name: string; slug: string }[];
   } | null>(null);
 
   const handleAccept = async () => {
@@ -74,6 +76,12 @@ const InvitationAcceptPage: React.FC = () => {
               </span>
               <RoleBadge role={result.role} />
             </div>
+            <p className="mt-3 font-sans text-xs text-[var(--color-text-secondary)]">
+              Akses berlaku untuk seluruh workspace di organisasi ini.
+              {result.workspaces && result.workspaces.length > 0
+                ? ` Workspace: ${result.workspaces.map((w) => w.name).join(', ')}.`
+                : ''}
+            </p>
             <Button
               variant="primary"
               size="sm"

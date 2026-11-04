@@ -96,9 +96,14 @@ const WorkspaceDetailPage: React.FC = () => {
           <h1 className="font-sans font-extrabold text-xl tracking-tight">{workspace.name}</h1>
           <p className="font-mono text-xs text-[var(--color-text-secondary)]">{workspace.slug}</p>
         </div>
-        <Button variant="secondary" size="sm" onClick={() => navigate('/app/workspaces')}>
-          Kembali
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="secondary" size="sm" onClick={() => navigate(`/app/workspaces/${workspace.id}/dashboard`)}>
+            Dashboard
+          </Button>
+          <Button variant="secondary" size="sm" onClick={() => navigate('/app/workspaces')}>
+            Kembali
+          </Button>
+        </div>
       </header>
 
       <WindowCard title="Detail workspace">

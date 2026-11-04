@@ -103,6 +103,28 @@ export type CloudRun = {
   finishedAt: string | null;
 };
 
+export type CloudReportSummary = {
+  id: string;
+  isPublished: boolean;
+  shareToken: string | null;
+  publishedAt: string | null;
+  expiresAt: string | null;
+};
+
+/** Baris daftar report per workspace, termasuk status publikasi dari server. */
+export type ReportListItem = {
+  id: string;
+  runRef: string;
+  status: string;
+  totalTests: number;
+  passed: number;
+  failed: number;
+  durationMs: number | null;
+  device: string | null;
+  createdAt: string;
+  report: CloudReportSummary | null;
+};
+
 export type CloudReport = {
   id: string;
   runId: string;

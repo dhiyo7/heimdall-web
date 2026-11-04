@@ -25,6 +25,7 @@ const ConsoleLayout = lazy(() => import('./modules/console/ConsoleLayout'));
 const OverviewPage = lazy(() => import('./modules/console/pages/OverviewPage'));
 const WorkspacesPage = lazy(() => import('./modules/console/pages/WorkspacesPage'));
 const WorkspaceDetailPage = lazy(() => import('./modules/console/pages/WorkspaceDetailPage'));
+const DashboardPage = lazy(() => import('./modules/console/pages/DashboardPage'));
 const MembersPage = lazy(() => import('./modules/console/pages/MembersPage'));
 const InvitationsPage = lazy(() => import('./modules/console/pages/InvitationsPage'));
 const DevicesPage = lazy(() => import('./modules/console/pages/DevicesPage'));
@@ -143,6 +144,7 @@ const App: React.FC = () => {
                   <Route index element={<OverviewPage />} />
                   <Route path="workspaces" element={<WorkspacesPage />} />
                   <Route path="workspaces/:id" element={<WorkspaceDetailPage />} />
+                  <Route path="workspaces/:id/dashboard" element={<DashboardPage />} />
                   <Route path="members" element={<MembersPage />} />
                   <Route
                     path="invitations"

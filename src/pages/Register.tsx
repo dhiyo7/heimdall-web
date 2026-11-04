@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Lock, Mail, User } from 'lucide-react';
 import { WindowCard } from '../components/ui/WindowCard';
 import { Button } from '../components/ui/Button';
@@ -10,6 +10,8 @@ import { ApiError } from '../lib/api/client';
 export const Register: React.FC = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const next = params.get('next');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,7 +35,7 @@ export const Register: React.FC = () => {
     setBusy(true);
     try {
       await register({ email, password, fullName: fullName.trim() || undefined });
-      navigate('/app', { replace: true });
+      navigate(next ?? '/app', { replace: true });
     } catch (err) {
       if (err instanceof ApiError && err.details.length > 0) {
         setError(err.details.map((d) => d.message).join(' · '));
@@ -163,7 +165,7 @@ export const Register: React.FC = () => {
               <p className="font-sans text-xs text-[var(--color-text-secondary)]">
                 Sudah punya akun?{' '}
                 <Link
-                  to="/login"
+                  to={next ? `/login?next=${encodeURIComponent(next)}` : '/login'}
                   className="font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
                 >
                   Masuk
