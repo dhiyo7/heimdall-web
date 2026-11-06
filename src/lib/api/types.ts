@@ -35,6 +35,30 @@ export type Member = {
   joinedAt: string;
 };
 
+/** Ringkasan workspace dari `GET /v1/workspaces/:id/summary` (dipakai dashboard & tab). */
+export type WorkspaceSummary = {
+  memberCount: number;
+  scriptCount: number;
+  runCount: number;
+  storageUsedBytes: number;
+  storageLimitBytes: number;
+  totals: {
+    totalRuns: number;
+    passCount: number;
+    failCount: number;
+    passRate: number;
+  };
+};
+
+/** `implicit` = OWNER/ADMIN organisasi (akses otomatis ke semua workspace, tidak bisa dilepas). */
+export type WorkspaceMember = {
+  userId: string;
+  email: string;
+  fullName: string | null;
+  role: Role;
+  implicit: boolean;
+};
+
 export type Invitation = {
   id: string;
   email: string;
@@ -66,6 +90,18 @@ export type ScriptType = 'ui' | 'api';
 
 export type Visibility = 'private' | 'workspace' | 'link';
 
+/** SPEC-26/30: folder hierarki TMS (platform → application → version → module) dari Desktop. */
+export type Folder = {
+  id: string;
+  workspaceId: string;
+  parentId: string | null;
+  level: 'platform' | 'application' | 'version' | 'module';
+  name: string;
+  slug: string;
+  /** Slug gabungan root→leaf, mis. "legacy-app/v1-0/login". */
+  path: string;
+};
+
 export type Script = {
   id: string;
   workspaceId: string;
@@ -77,6 +113,12 @@ export type Script = {
   ownerUserId: string;
   latestVersionId: string | null;
   latestVersionNo?: number;
+  /** Folder induk (null = root workspace). Dikirim oleh backend daftar/detail. */
+  folderId?: string | null;
+  /** Path folder dari server (daftar script dengan filter folderPath). */
+  folderPath?: string | null;
+  /** Ukuran versi terbaru (byte) bila backend menyertakannya. */
+  sizeBytes?: number | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -85,6 +127,8 @@ export type ScriptVersion = {
   id: string;
   versionNo: number;
   contentHash: string;
+  /** Ukuran konten (byte) bila backend menyertakannya. */
+  sizeBytes?: number | null;
   note: string | null;
   authorUserId: string;
   createdAt: string;

@@ -1,5 +1,17 @@
 import { apiGet } from './client';
 
+export type DashboardRecentRun = {
+  id: string;
+  runRef: string;
+  status: string;
+  totalTests: number;
+  passed: number;
+  failed: number;
+  durationMs: number | null;
+  device: string | null;
+  createdAt: string;
+};
+
 export type DashboardData = {
   totals: {
     runs: number;
@@ -10,17 +22,7 @@ export type DashboardData = {
     artifacts: number;
   };
   last7Days: { date: string; runs: number; passed: number; failed: number }[];
-  recentRuns: {
-    id: string;
-    runRef: string;
-    status: string;
-    totalTests: number;
-    passed: number;
-    failed: number;
-    durationMs: number | null;
-    device: string | null;
-    createdAt: string;
-  }[];
+  recentRuns: DashboardRecentRun[];
 };
 
 export const getDashboard = (workspaceId: string) =>

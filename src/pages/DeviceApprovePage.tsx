@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
@@ -35,6 +35,10 @@ const DeviceApprovePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [approved, setApproved] = useState(false);
   const [denied, setDenied] = useState(false);
+  const [showManualHint, setShowManualHint] = useState(false);
+  const hintTimer = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(hintTimer.current), []);
 
   const handleApprove = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +52,13 @@ const DeviceApprovePage: React.FC = () => {
     try {
       await approveDevice(code, targetOrg);
       setApproved(true);
+      // Sinyal balik ke Desktop; deviceCode tetap di sisi Desktop (tidak ikut di URL).
+      try {
+        window.location.href = 'heimdall://auth/callback';
+      } catch {
+        // Browser tidak mengenal skema — pengguna melihat fallback manual di bawah.
+      }
+      hintTimer.current = window.setTimeout(() => setShowManualHint(true), 2500);
     } catch (err) {
       setError(describeError(err));
     } finally {
@@ -83,6 +94,12 @@ const DeviceApprovePage: React.FC = () => {
             <p className="mt-1 font-sans text-sm text-[var(--color-text-secondary)]">
               Kembali ke aplikasi Desktop untuk melanjutkan.
             </p>
+            {showManualHint && (
+              <p role="status" className="mt-3 font-sans text-xs text-[var(--color-text-muted)]">
+                Jika aplikasi Heimdall tidak terbuka otomatis, silakan buka aplikasi secara
+                manual — persetujuan sudah tersimpan.
+              </p>
+            )}
             <Button
               variant="primary"
               size="sm"

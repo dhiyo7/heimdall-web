@@ -1,30 +1,85 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../lib/auth/AuthContext';
 import { useApi } from '../../../lib/useApi';
 import { ApiError } from '../../../lib/api/client';
-import { createWorkspace, deleteWorkspace, listWorkspaces } from '../../../lib/api/workspaces';
-import type { Workspace } from '../../../lib/api/types';
+import {
+  createWorkspace,
+  deleteWorkspace,
+  getWorkspaceSummary,
+  listWorkspaceMembers,
+  listWorkspaces,
+} from '../../../lib/api/workspaces';
+import { listScripts } from '../../../lib/api/scripts';
+import type { Workspace, WorkspaceSummary } from '../../../lib/api/types';
 import { Button } from '../../../components/ui/Button';
 import { WindowCard } from '../../../components/ui/WindowCard';
 import { ConfirmDialog } from '../ConfirmDialog';
-import { DataTable, type Column } from '../DataTable';
 import { EmptyState } from '../EmptyState';
 import { useToast } from '../Toast';
+import { WorkspaceCard } from '../components/WorkspaceCard';
 
 const INPUT =
   'w-full h-10 px-3 rounded-md bg-[var(--color-surface)] border border-[var(--color-border)] font-sans text-sm text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-primary)]';
 const LABEL =
   'mb-2 font-mono text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]';
 
+/**
+ * ponytail: fallback sebelum `GET /v1/workspaces/:id/summary` tersedia — paralel hitung
+ * anggota & script, field storage/totals dibiarkan 0. Ganti begitu endpoint rilis.
+ */
+async function loadSummary(id: string): Promise<WorkspaceSummary | null> {
+  try {
+    return await getWorkspaceSummary(id);
+  } catch {
+    try {
+      const [members, scripts] = await Promise.all([listWorkspaceMembers(id), listScripts(id)]);
+      return {
+        memberCount: members.members.length,
+        scriptCount: scripts.scripts.length,
+        runCount: 0,
+        storageUsedBytes: 0,
+        storageLimitBytes: 0,
+        totals: { totalRuns: 0, passCount: 0, failCount: 0, passRate: 0 },
+      };
+    } catch {
+      return null;
+    }
+  }
+}
+
 const WorkspacesPage: React.FC = () => {
   const { activeOrg, role } = useAuth();
   const { push } = useToast();
+  const navigate = useNavigate();
   const { data, loading, error, reload } = useApi(
-    () => listWorkspaces(activeOrg?.id),
+    () => (activeOrg ? listWorkspaces(activeOrg.id) : Promise.resolve({ workspaces: [] })),
     [activeOrg?.id],
   );
   const canManage = role === 'OWNER' || role === 'ADMIN';
+  const workspaces = data?.workspaces ?? [];
+
+  const [summaries, setSummaries] = useState<Record<string, WorkspaceSummary | null>>({});
+  const [summariesLoading, setSummariesLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (workspaces.length === 0) {
+      setSummaries({});
+      return;
+    }
+    setSummariesLoading(true);
+    Promise.all(workspaces.map((w) => loadSummary(w.id).then((s) => [w.id, s] as const))).then(
+      (entries) => {
+        if (cancelled) return;
+        setSummaries(Object.fromEntries(entries));
+        setSummariesLoading(false);
+      },
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [workspaces]);
 
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
@@ -49,11 +104,7 @@ const WorkspacesPage: React.FC = () => {
     setBusy(true);
     setFormError('');
     try {
-      await createWorkspace({
-        orgId: activeOrg.id,
-        name: name.trim(),
-        slug: slug.trim() || undefined,
-      });
+      await createWorkspace({ orgId: activeOrg.id, name: name.trim(), slug: slug.trim() || undefined });
       push('Workspace dibuat.');
       close();
       setName('');
@@ -87,77 +138,59 @@ const WorkspacesPage: React.FC = () => {
     }
   };
 
-  const columns: Column<Workspace>[] = [
-    {
-      key: 'name',
-      label: 'Nama',
-      render: (w) => (
-        <Link
-          to={`/app/workspaces/${w.id}`}
-          className="font-sans font-semibold text-[var(--color-primary)] hover:underline"
-        >
-          {w.name}
-        </Link>
-      ),
-    },
-    { key: 'slug', label: 'Slug', mono: true, render: (w) => w.slug },
-    {
-      key: 'createdAt',
-      label: 'Dibuat',
-      render: (w) => new Date(w.createdAt).toLocaleDateString('id-ID'),
-    },
-  ];
-  if (canManage) {
-    columns.push({
-      key: 'actions',
-      label: 'Aksi',
-      render: (w) => (
-        <Button variant="tertiary" size="sm" onClick={() => setToDelete(w)}>
-          Hapus
-        </Button>
-      ),
-    });
-  }
-
   return (
     <>
       <header className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-sans font-extrabold text-xl tracking-tight">Workspace</h1>
+          <h1 className="font-sans text-xl font-extrabold tracking-tight">Workspace</h1>
           <p className="font-sans text-sm text-[var(--color-text-secondary)]">
             Pisahkan pekerjaan per tim atau per produk dalam satu organisasi.
           </p>
         </div>
         {canManage && (
           <Button variant="primary" size="sm" onClick={() => setOpen(true)}>
-            Buat workspace
+            + Buat Workspace
           </Button>
         )}
       </header>
 
-      <WindowCard title="Daftar workspace" noPadding>
-        <div className="p-4">
-          {error && (
-            <p role="alert" className="mb-3 font-sans text-xs text-[var(--color-danger)]">
-              {error.message}
-            </p>
-          )}
-          <DataTable
-            columns={columns}
-            rows={data?.workspaces ?? []}
-            rowKey={(w) => w.id}
-            loading={loading}
-            empty={
-              <EmptyState
-                title="Belum ada workspace"
-                description="Workspace memisahkan pekerjaan per tim atau per produk."
-                actionLabel={canManage ? 'Buat workspace' : undefined}
-                onAction={canManage ? () => setOpen(true) : undefined}
-              />
-            }
-          />
+      {error ? (
+        <div
+          role="alert"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[var(--color-danger)]/40 bg-[var(--color-danger)]/10 px-4 py-3"
+        >
+          <p className="font-sans text-sm text-[var(--color-danger)]">{error.message}</p>
+          <Button variant="secondary" size="sm" onClick={reload}>
+            Coba lagi
+          </Button>
         </div>
-      </WindowCard>
+      ) : loading ? (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-52 animate-pulse rounded-lg bg-[var(--color-surface-muted)]" />
+          ))}
+        </div>
+      ) : workspaces.length === 0 ? (
+        <EmptyState
+          title="Belum ada workspace"
+          description="Workspace memisahkan pekerjaan per tim atau per produk."
+          actionLabel={canManage ? 'Buat workspace' : undefined}
+          onAction={canManage ? () => setOpen(true) : undefined}
+        />
+      ) : (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {workspaces.map((w) => (
+            <WorkspaceCard
+              key={w.id}
+              workspace={w}
+              summary={summaries[w.id] ?? null}
+              loading={summariesLoading}
+              orgRole={role}
+              onSettings={(ws) => navigate(`/app/workspaces/${ws.id}?tab=settings`)}
+            />
+          ))}
+        </div>
+      )}
 
       {open && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 px-4">
