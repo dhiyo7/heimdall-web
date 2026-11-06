@@ -173,7 +173,9 @@ const ScriptsPage: React.FC = () => {
       setName('');
       setContent('');
       setNote('');
+      // FolderPath bisa menciptakan folder baru → reload tree juga (section dinamis).
       scriptsApi.reload();
+      foldersApi.reload();
     } catch (err) {
       setFormError(asMessage(err, 'Gagal membuat script.'));
     } finally {
