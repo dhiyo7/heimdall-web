@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Download } from 'lucide-react';
 import { Button } from '../components/ui/Button';
@@ -14,12 +14,14 @@ const LABEL =
 
 const PublicReportPage: React.FC = () => {
   const { token } = useParams();
+  const [password, setPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const { data, loading, error, reload } = useApi(
     () =>
       token
-        ? getPublicReport(token)
+        ? getPublicReport(token, password || undefined)
         : Promise.reject(new ApiError(404, 'NOT_FOUND', 'Tautan tidak ditemukan.')),
-    [token],
+    [token, password],
   );
 
   if (loading) {
@@ -31,8 +33,62 @@ const PublicReportPage: React.FC = () => {
   }
 
   if (error) {
+    const needsPassword = error.status === 401 && error.code === 'REPORT_PASSWORD_REQUIRED';
     const notFound = error.status === 404;
     const expired = error.status === 410;
+
+    if (needsPassword) {
+      return (
+        <div className="mx-auto w-full max-w-xl px-4 py-16">
+          <WindowCard title="laporan publik">
+            <h1 className="font-sans text-xl font-extrabold tracking-tight text-[var(--color-text-primary)]">
+              Laporan dilindungi password
+            </h1>
+            <p className="mt-2 font-sans text-sm text-[var(--color-text-secondary)]">
+              Masukkan password yang diberikan pemilik laporan untuk membukanya.
+            </p>
+            <form
+              className="mt-5 flex flex-col gap-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubmitted(true);
+                reload();
+              }}
+            >
+              <label className="block">
+                <span className={LABEL}>Password</span>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setSubmitted(false);
+                  }}
+                  autoFocus
+                  className="h-10 w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-sans text-sm text-[var(--color-text-primary)] focus:border-[var(--color-primary)] focus:outline-none"
+                />
+              </label>
+              {submitted && password && (
+                <p role="alert" className="font-sans text-sm text-[var(--color-danger)]">
+                  Password salah, coba lagi.
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2">
+                <Button type="submit" variant="primary" size="sm" disabled={!password}>
+                  Buka laporan
+                </Button>
+                <Link to="/">
+                  <Button type="button" variant="secondary" size="sm">
+                    Ke beranda
+                  </Button>
+                </Link>
+              </div>
+            </form>
+          </WindowCard>
+        </div>
+      );
+    }
+
     return (
       <div className="mx-auto w-full max-w-xl px-4 py-16">
         <WindowCard title="laporan publik">

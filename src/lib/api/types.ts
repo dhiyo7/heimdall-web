@@ -151,6 +151,8 @@ export type CloudReportSummary = {
   id: string;
   isPublished: boolean;
   shareToken: string | null;
+  /** SPEC-34: true bila laporan publik dilindungi password. */
+  hasPassword?: boolean;
   publishedAt: string | null;
   expiresAt: string | null;
 };

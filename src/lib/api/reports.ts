@@ -18,6 +18,8 @@ export type PublishReportInput = {
   visibility?: Visibility;
   expiresInDays?: number;
   artifactIds?: string[];
+  /** SPEC-34: bila diisi (min 6 karakter) laporan publik dilindungi password. */
+  password?: string;
 };
 
 export type ReportDetail = {
@@ -35,15 +37,22 @@ export const listReports = (workspaceId: string) =>
   apiGet<{ items: ReportListItem[] }>(`/v1/workspaces/${workspaceId}/reports`);
 
 export const publishReport = (runId: string, body: PublishReportInput = {}) =>
-  apiPost<{ report: CloudReport; token: string; shareUrl: string; expiresAt: string | null }>(
-    `/v1/reports/${runId}/publish`,
-    body,
-  );
+  apiPost<{
+    report: CloudReport;
+    token: string;
+    shareUrl: string;
+    expiresAt: string | null;
+    /** SPEC-34: true bila laporan dipublikasikan dengan password. */
+    hasPassword?: boolean;
+  }>(`/v1/reports/${runId}/publish`, body);
 
 export const unpublishReport = (id: string) => apiDelete(`/v1/reports/${id}/unpublish`);
 
 export const getReport = (id: string) => apiGet<ReportDetail>(`/v1/reports/${id}`);
 
 /** Endpoint publik; aman dipanggil tanpa sesi walau klien mengirim token bila ada. */
-export const getPublicReport = (token: string) =>
-  apiGet<ReportDetail>(`/v1/public/reports/${encodeURIComponent(token)}`);
+export const getPublicReport = (token: string, password?: string) =>
+  apiGet<ReportDetail>(
+    `/v1/public/reports/${encodeURIComponent(token)}`,
+    password ? { 'X-Report-Password': password } : undefined,
+  );

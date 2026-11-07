@@ -30,6 +30,10 @@ const ReportsPage: React.FC = () => {
   );
 
   const [busyRun, setBusyRun] = useState<string | null>(null);
+  // SPEC-34: run yang sedang diisi opsinya + toggle & password opsional.
+  const [protectRun, setProtectRun] = useState<string | null>(null);
+  const [protect, setProtect] = useState(false);
+  const [password, setPassword] = useState('');
 
   if (active.loading) {
     return <p className="font-mono text-sm text-[var(--color-text-muted)]">memuat workspace…</p>;
@@ -58,8 +62,11 @@ const ReportsPage: React.FC = () => {
   const publish = async (item: ReportListItem) => {
     setBusyRun(item.id);
     try {
-      await publishReport(item.id);
+      await publishReport(item.id, protect && password ? { password } : {});
       push('Laporan dipublikasikan.');
+      setProtectRun(null);
+      setProtect(false);
+      setPassword('');
       reload();
     } catch (err) {
       push(asMessage(err, 'Gagal mempublikasikan laporan.'), 'error');
@@ -141,6 +148,14 @@ const ReportsPage: React.FC = () => {
                 <span className="inline-flex items-center rounded-md border border-[var(--color-success)]/40 bg-[var(--color-success)]/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-[var(--color-success)]">
                   Publik
                 </span>
+                {report.hasPassword && (
+                  <span
+                    title="Dilindungi password"
+                    className="inline-flex items-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-0.5 font-mono text-[10px] font-semibold text-[var(--color-text-muted)]"
+                  >
+                    🔒 Password
+                  </span>
+                )}
                 <Button
                   variant="secondary"
                   size="sm"
@@ -173,11 +188,58 @@ const ReportsPage: React.FC = () => {
             </div>
           );
         }
+        // SPEC-34: opsi lindungi password sebelum publikasi.
+        if (protectRun === r.id) {
+          return (
+            <div className="flex flex-col gap-2">
+              <label className="flex items-center gap-2 font-sans text-xs text-[var(--color-text-secondary)]">
+                <input type="checkbox" checked={protect} onChange={(e) => setProtect(e.target.checked)} />
+                Lindungi dengan password
+              </label>
+              {protect && (
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="min 6 karakter"
+                  autoFocus
+                  className={INPUT}
+                />
+              )}
+              <div className="flex gap-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => publish(r)}
+                  disabled={busyRun === r.id || (protect && password.length < 6)}
+                >
+                  {busyRun === r.id ? 'Mempublikasikan…' : 'Publikasikan'}
+                </Button>
+                <Button
+                  variant="tertiary"
+                  size="sm"
+                  onClick={() => {
+                    setProtectRun(null);
+                    setProtect(false);
+                    setPassword('');
+                  }}
+                  disabled={busyRun === r.id}
+                >
+                  Batal
+                </Button>
+              </div>
+            </div>
+          );
+        }
         return (
           <Button
             variant="primary"
             size="sm"
-            onClick={() => publish(r)}
+            onClick={() => {
+              setProtectRun(r.id);
+              setProtect(false);
+              setPassword('');
+            }}
             disabled={busyRun === r.id}
           >
             {busyRun === r.id ? 'Mempublikasikan…' : 'Publikasikan'}

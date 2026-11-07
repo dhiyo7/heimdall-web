@@ -96,7 +96,8 @@ async function request<T>(path: string, init: RequestInit, retry = true): Promis
 
 const json = (body: unknown): RequestInit => ({ method: 'POST', body: JSON.stringify(body) });
 
-export const apiGet = <T>(path: string) => request<T>(path, { method: 'GET' });
+export const apiGet = <T>(path: string, headers?: HeadersInit) =>
+  request<T>(path, { method: 'GET', headers });
 export const apiPost = <T>(path: string, body: unknown = {}) => request<T>(path, json(body));
 export const apiPatch = <T>(path: string, body: unknown) =>
   request<T>(path, { method: 'PATCH', body: JSON.stringify(body) });
