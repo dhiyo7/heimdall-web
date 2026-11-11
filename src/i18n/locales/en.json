@@ -1,6 +1,6 @@
 {
   "common": {
-    "v2_beta": "v2 Desktop • Beta",
+    "v2_beta": "Beta",
     "free_trial": "Start 14-Day Free Trial",
     "view_features": "View Features",
     "no_credit_card": "no credit card required",
@@ -53,6 +53,7 @@
   },
   "download": {
     "badge": "Download",
+    "choose_platform": "Choose your platform",
     "title": "Download Heimdall Desktop",
     "description": "One app for inspection, execution and reporting. A short install, then you write your first scenario.",
     "cta": "Download Desktop (Beta)",
@@ -61,6 +62,11 @@
     "os_macos": "macOS",
     "os_windows": "Windows",
     "os_linux": "Linux",
+    "latest": "Latest build · v0.9.0-beta · 10 Nov 2026",
+    "file_macos": "Heimdall-0.9.0-beta-arm64.dmg",
+    "file_windows": "Heimdall-0.9.0-beta-setup-x64.exe",
+    "file_linux": "Heimdall-0.9.0-beta-x86_64.AppImage",
+    "releases": "Release notes & SHA-256 checksums",
     "req_title": "What you need",
     "req_desc": "Android SDK/ADB for mobile targets, a modern browser for web targets. Heimdall checks both on first launch."
   },

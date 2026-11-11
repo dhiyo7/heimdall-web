@@ -1,6 +1,6 @@
 {
   "common": {
-    "v2_beta": "v2 Desktop • Beta",
+    "v2_beta": "Beta",
     "free_trial": "Mulai Uji Coba Gratis 14 Hari",
     "view_features": "Lihat Fitur",
     "no_credit_card": "tidak butuh kartu kredit",
@@ -53,6 +53,7 @@
   },
   "download": {
     "badge": "Unduh",
+    "choose_platform": "Pilih platform Anda",
     "title": "Unduh Heimdall Desktop",
     "description": "Satu aplikasi untuk inspeksi, eksekusi, dan pelaporan. Instalasi singkat, lalu Anda langsung menulis skenario pertama.",
     "cta": "Unduh Desktop (Beta)",
@@ -61,6 +62,11 @@
     "os_macos": "macOS",
     "os_windows": "Windows",
     "os_linux": "Linux",
+    "latest": "Build terbaru · v0.9.0-beta · 10 Nov 2026",
+    "file_macos": "Heimdall-0.9.0-beta-arm64.dmg",
+    "file_windows": "Heimdall-0.9.0-beta-setup-x64.exe",
+    "file_linux": "Heimdall-0.9.0-beta-x86_64.AppImage",
+    "releases": "Catatan rilis & checksum SHA-256",
     "req_title": "Yang dibutuhkan",
     "req_desc": "Android SDK/ADB untuk target mobile, browser modern untuk target web. Heimdall memeriksa keduanya saat pertama dibuka."
   },

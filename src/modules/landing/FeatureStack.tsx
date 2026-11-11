@@ -94,7 +94,7 @@ const TiltCard: React.FC<{ art: IllustrationName; alt: string }> = ({ art, alt }
       onPointerMove={onMove}
       onPointerLeave={() => setStyle({})}
       style={{ transition: 'transform 200ms ease-out', ...style }}
-      className="flex items-center justify-center bg-[var(--color-surface-muted)] p-6 md:p-10 h-full min-h-[220px]"
+      className="flex items-center justify-center bg-[var(--color-canvas)] p-6 md:p-10 h-full min-h-[220px]"
     >
       <Illustration name={art} alt={alt} className="max-h-[280px]" />
     </div>

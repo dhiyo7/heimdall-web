@@ -8,9 +8,9 @@ import { useI18n } from '../../i18n/I18nContext';
 const links = [
   { key: 'features', href: '/#features', id: 'features' },
   { key: 'pricing', href: '/#pricing', id: 'pricing' },
-  { key: 'gallery', href: '/#gallery', id: 'gallery' },
+  // { key: 'gallery', href: '/#gallery', id: 'gallery' },
   { key: 'roadmap', href: '/#roadmap', id: 'roadmap' },
-  { key: 'docs', href: '/documentation', id: 'docs' },
+  { key: 'docs', href: '/#docs', id: 'docs' },
 ];
 
 /** Navbar pill kaca mengambang (referensi studio.tayang.app). */
@@ -28,7 +28,7 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id?: string) => {
-    if (id && id !== 'docs') {
+    if (id) {
       const element = document.getElementById(id);
       if (element) {
         e.preventDefault();
@@ -65,19 +65,8 @@ export const Navbar: React.FC = () => {
           {/* Desktop menu */}
           <nav className="hidden md:flex items-center gap-1">
             {links.map((link) => {
-              if (link.key === 'docs') {
-                return (
-                  <a
-                    key={link.key}
-                    href={link.href}
-                    className="px-3 py-2 rounded-full font-sans text-[13px] font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)] transition-colors"
-                  >
-                    {t('nav.' + link.key)}
-                  </a>
-                );
-              }
               const isActive =
-                location.pathname === '/' && link.id ? location.hash === '#' + link.id : false;
+                location.pathname === '/' && location.hash === '#' + link.id;
               return (
                 <a
                   key={link.key}

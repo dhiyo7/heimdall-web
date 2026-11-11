@@ -36,11 +36,19 @@ export const WindowCard: React.FC<WindowCardProps> = ({
     hover:border-[var(--color-primary)]
   `;
 
+  // Variant dark punya chrome gelap tetap (bukan token tema) agar kontras terjaga.
+  const isDark = variant === 'dark';
+  const headerClass = isDark
+    ? 'border-b border-[#2b2e30] bg-[#1b1d20] px-4 py-2.5 flex items-center justify-between gap-4 transition-colors duration-200'
+    : 'border-b border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2.5 flex items-center justify-between gap-4 transition-colors duration-200';
+  const headerTextClass = isDark ? 'text-[#9ba1a6]' : 'text-[var(--color-text-muted)]';
+  const bodyClass = isDark ? 'text-[#c9cdd1]' : 'text-[var(--color-text-secondary)]';
+
   const variantClasses: Record<WindowCardVariant, string> = {
     default:
       'bg-[var(--color-surface-muted)] border border-[var(--color-border)] rounded-lg',
     dark:
-      'bg-[var(--color-background)] border-none rounded-xl shadow-md',
+      'bg-[#141517] border border-[#2b2e30] rounded-xl shadow-md',
     highlight:
       'bg-[var(--color-surface)] border border-[#333638] rounded-xl shadow-inner',
     muted:
@@ -50,7 +58,7 @@ export const WindowCard: React.FC<WindowCardProps> = ({
   return (
     <div className={`${containerClasses} ${variantClasses[variant]} ${className}`}>
       {/* Window Header */}
-      <div className="border-b border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2.5 flex items-center justify-between gap-4 transition-colors duration-200">
+      <div className={headerClass}>
         <div className="flex gap-1.5 shrink-0">
           <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-danger)]" aria-hidden="true" />
           <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-warning)]" aria-hidden="true" />
@@ -58,18 +66,18 @@ export const WindowCard: React.FC<WindowCardProps> = ({
         </div>
 
         <div className="flex-grow text-center min-w-0">
-          <div className="font-mono text-xs font-semibold text-[var(--color-text-muted)] tracking-tight truncate leading-tight">
+          <div className={`font-mono text-xs font-semibold ${headerTextClass} tracking-tight truncate leading-tight`}>
             {title}
           </div>
           {subtitle && (
-            <div className="font-mono text-[10px] font-medium text-[var(--color-text-muted)] shrink-0 pt-0.5 truncate">
+            <div className={`font-mono text-[10px] font-medium ${headerTextClass} shrink-0 pt-0.5 truncate`}>
               {subtitle}
             </div>
           )}
         </div>
 
         {date ? (
-          <div className="font-mono text-[10px] font-medium text-[var(--color-text-muted)] shrink-0">
+          <div className={`font-mono text-[10px] font-medium ${headerTextClass} shrink-0`}>
             {date}
           </div>
         ) : (
@@ -82,7 +90,7 @@ export const WindowCard: React.FC<WindowCardProps> = ({
         className={`
           flex-grow
           ${noPadding ? 'p-0' : 'p-5'}
-          text-[var(--color-text-secondary)]
+          ${bodyClass}
           ${contentClassName}
         `}
       >

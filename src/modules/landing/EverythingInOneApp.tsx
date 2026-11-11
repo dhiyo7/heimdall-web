@@ -166,7 +166,7 @@ export const EverythingInOneApp: React.FC = () => {
         {/* Panel pratinjau — morph mulus antar tab */}
         <WindowCard title={current.filename} variant="default" noPadding>
           <div className="grid grid-cols-1 lg:grid-cols-5">
-            <div className="lg:col-span-3 flex items-center justify-center bg-[var(--color-surface-muted)] p-6 md:p-10 min-h-[240px] md:min-h-[320px]">
+            <div className="lg:col-span-3 flex items-center justify-center bg-[var(--color-canvas)] p-6 md:p-10 min-h-[240px] md:min-h-[320px]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current.key}

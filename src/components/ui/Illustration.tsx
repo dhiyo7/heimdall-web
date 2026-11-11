@@ -35,6 +35,7 @@ const Lazy: React.FC<{ name: IllustrationName; alt: string; priority?: boolean; 
     loading={priority ? 'eager' : 'lazy'}
     decoding="async"
     className={`${variant === 'dark' ? 'illu-dark' : 'illu-light'} w-full h-auto object-contain ${className}`}
+    style={{ mixBlendMode: variant === 'light' ? 'multiply' : 'screen' }}
   />
 );
 

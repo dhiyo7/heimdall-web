@@ -4,22 +4,26 @@
 
 @layer base {
   :root {
-    /* ===== Design Tokens (Light Scheme default) ===== */
-    --color-background: #ffffff;
-    --color-surface: #f8f8f8;
-    --color-surface-muted: #f1f1f1;
-    --color-text-primary: #0a0a0b;
-    --color-text-secondary: #3a3a3c;
-    --color-text-muted: #7a7a7e;
-    --color-border: #d2d2d6;
-    --color-primary: #d97757;
-    --color-secondary: #38b6ff;
-    --color-accent: #d97757;
-    --color-primary-hover: #005fcc;
-    --color-danger: #ff6b70;
-    --color-warning: #ff9f0a;
-    --color-success: #30b05a;
-    --color-info: #0072f5;
+    /* ===== Design Tokens (Light Scheme default) =====
+       Diselaraskan dengan palet ilustrasi (cream #f5f2ed + taupe) agar aset menyatu. */
+    --color-background: #f7f5f1;
+    --color-surface: #f2efea;
+    --color-surface-muted: #ebe7e0;
+    --color-text-primary: #1c1a17;
+    --color-text-secondary: #4a453e;
+    --color-text-muted: #857e73;
+    --color-border: #dcd5ca;
+    --color-primary: #c4693f;
+    --color-secondary: #8a9a7b;
+    --color-accent: #c4693f;
+    --color-primary-hover: #a8542f;
+    --color-danger: #c0553f;
+    --color-warning: #c58a3a;
+    --color-success: #5c8a5e;
+    --color-info: #4a7a96;
+
+    /* Ilustrasi: warna kertas (samakan background aset -> hilangkan gap) */
+    --color-canvas: #f5f2ed;
 
     /* ===== Design Tokens (Dark Scheme override) ===== */
     --color-background-dark: #08090a;
@@ -142,6 +146,9 @@
     --color-pill-glass: rgba(24, 25, 27, 0.72);
     --color-pill-glass-border: rgba(255, 255, 255, 0.1);
     --color-node-line: rgba(255, 107, 112, 0.35);
+
+    /* Ilustrasi versi gelap punya latar gelap sendiri */
+    --color-canvas: #1a1a1a;
   }
 
   html {
@@ -255,6 +262,7 @@
   .section-editorial {
     padding-top: var(--spacing-editorial);
     padding-bottom: var(--spacing-editorial);
+    scroll-margin-top: 88px;
   }
 
   .editorial-h1 {

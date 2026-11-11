@@ -20,6 +20,8 @@ export const ThemeToggle: React.FC = () => {
             root.classList.remove('dark');
         }
         localStorage.setItem('theme', theme);
+        // Beri tahu konsumen non-React (mis. canvas Hero) bahwa token warna berubah.
+        window.dispatchEvent(new Event('theme-change'));
     }, [theme]);
 
     const toggleTheme = () => {

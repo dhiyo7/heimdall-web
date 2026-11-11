@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Check, ChevronDown, Sparkles, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../components/ui/Button';
-import {
-  Check,
-  X,
-} from 'lucide-react';
 import { useI18n } from '../../i18n/I18nContext';
 
 type TierValue = boolean | string;
+type Tier = 'starter' | 'pro' | 'enterprise';
 
 interface FeatureRow {
   key: string;
@@ -21,6 +20,7 @@ interface FeatureGroup {
 }
 
 interface PlanInfo {
+  tier: Tier;
   nameKey: string;
   descKey: string;
   priceKey: string;
@@ -29,12 +29,11 @@ interface PlanInfo {
   variant: 'primary' | 'secondary';
   popular: boolean;
   includesKey?: string;
-  benefits: string[];
 }
 
 // ─────────────────────────────────────────────────────────────
-// SINGLE SOURCE OF TRUTH — rendered by cards AND the table.
-// String cells are i18n keys (pricing.val.*) so they translate.
+// Single source of truth — dipakai untuk daftar benefit per paket.
+// String cell adalah kunci i18n (pricing.val.*) agar ikut translate.
 // ─────────────────────────────────────────────────────────────
 const featureGroups: FeatureGroup[] = [
   {
@@ -95,11 +94,9 @@ const featureGroups: FeatureGroup[] = [
   },
 ];
 
-// ─────────────────────────────────────────────────────────────
-// Benefit-oriented copy: what the subscriber GETS, not feature names
-// ─────────────────────────────────────────────────────────────
 const plans: PlanInfo[] = [
   {
+    tier: 'starter',
     nameKey: 'pricing.starter',
     descKey: 'pricing.starter_desc',
     priceKey: 'pricing.starter_price',
@@ -107,15 +104,9 @@ const plans: PlanInfo[] = [
     ctaKey: 'pricing.starter_cta',
     variant: 'secondary',
     popular: false,
-    benefits: [
-      'pricing.starter_b1',
-      'pricing.starter_b2',
-      'pricing.starter_b3',
-      'pricing.starter_b4',
-      'pricing.starter_b5',
-    ],
   },
   {
+    tier: 'pro',
     nameKey: 'pricing.pro',
     descKey: 'pricing.pro_desc',
     priceKey: 'pricing.pro_price',
@@ -124,16 +115,9 @@ const plans: PlanInfo[] = [
     variant: 'primary',
     popular: true,
     includesKey: 'pricing.everything_in_starter',
-    benefits: [
-      'pricing.pro_b1',
-      'pricing.pro_b2',
-      'pricing.pro_b3',
-      'pricing.pro_b4',
-      'pricing.pro_b5',
-      'pricing.pro_b6',
-    ],
   },
   {
+    tier: 'enterprise',
     nameKey: 'pricing.enterprise',
     descKey: 'pricing.enterprise_desc',
     priceKey: 'pricing.enterprise_price',
@@ -142,33 +126,65 @@ const plans: PlanInfo[] = [
     variant: 'secondary',
     popular: false,
     includesKey: 'pricing.everything_in_pro',
-    benefits: [
-      'pricing.enterprise_b1',
-      'pricing.enterprise_b2',
-      'pricing.enterprise_b3',
-      'pricing.enterprise_b4',
-      'pricing.enterprise_b5',
-    ],
   },
 ];
 
-const renderCellValue = (val: TierValue, t: (k: string) => string) => {
-  if (typeof val === 'boolean') {
-    return val ? (
-      <Check className="w-5 h-5 text-[var(--color-success)] shrink-0" />
-    ) : (
-      <X className="w-5 h-5 text-[var(--color-text-muted)] opacity-30 shrink-0" />
-    );
-  }
+/** Nilai sel → teks/ikon. Hanya baris yang TRUE/label yang ditampilkan di detail. */
+const CellValue: React.FC<{ val: TierValue; t: (k: string) => string }> = ({ val, t }) => {
+  if (typeof val === 'boolean')
+    return val ? <Check className="w-4 h-4 text-[var(--color-success)] shrink-0" /> : null;
+  return <span className="text-xs font-semibold text-[var(--color-accent)]">{t(val)}</span>;
+};
+
+const PlanDetail: React.FC<{ tier: Tier; t: (k: string) => string }> = ({ tier, t }) => {
+  const groups = featureGroups
+    .map((g) => ({
+      groupKey: g.groupKey,
+      rows: g.rows.filter((r) => {
+        const v = r[tier];
+        return v !== false; // sembunyikan yang tidak didapat — fokus ke "apa yang kamu dapat"
+      }),
+    }))
+    .filter((g) => g.rows.length > 0);
+
   return (
-    <span className="text-xs font-semibold text-[var(--color-text-primary)]">
-      {t(val)}
-    </span>
+    <div className="space-y-6">
+      {groups.map((g, gi) => (
+        <motion.div
+          key={g.groupKey}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.08 * gi, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)] mb-2.5">
+            {t(g.groupKey)}
+          </p>
+          <ul className="space-y-2">
+            {g.rows.map((r, ri) => (
+              <motion.li
+                key={r.key}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + gi * 0.06 + ri * 0.025, duration: 0.3 }}
+                className="flex items-start gap-2.5 text-xs text-[var(--color-text-secondary)] leading-relaxed"
+              >
+                <Check className="w-3.5 h-3.5 mt-0.5 text-[var(--color-success)] shrink-0" />
+                <span className="flex-1">{t(r.key)}</span>
+                <CellValue val={r[tier]} t={t} />
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+      ))}
+    </div>
   );
 };
 
 export const PricingSection: React.FC = () => {
   const { t } = useI18n();
+  const [open, setOpen] = useState<Tier | null>(null);
+  const activePlan = open ? plans.find((p) => p.tier === open) : undefined;
+  const compact = open !== null; // mode detail: card jadi sidebar, benefit di panel kanan
 
   return (
     <section
@@ -176,171 +192,148 @@ export const PricingSection: React.FC = () => {
       className="section-editorial border-b border-[var(--color-border)] bg-[var(--color-background)]"
     >
       <div className="container-constrained">
-        {/* ── Section Header ── */}
         <div className="max-w-3xl mb-10 md:mb-14">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-semibold text-[var(--color-accent)] mb-5">
             {t('pricing.badge')}
           </span>
-          <h2 className="editorial-h2 text-[var(--color-text-primary)] mb-4">
-            {t('pricing.title_part1')}
-          </h2>
+          <h2 className="editorial-h2 text-[var(--color-text-primary)] mb-4">{t('pricing.title_part1')}</h2>
           <p className="editorial-lead">{t('pricing.description')}</p>
         </div>
 
-        {/* ── Benefit band: what every prospect gets ── */}
-        {/* <div className="text-center mb-6">
-          <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--color-secondary)]">
-            {t('pricing.included_badge')}
-          </span>
-          <h3 className="text-heading-27px font-bold text-[var(--color-text-primary)] mt-3">
-            {t('pricing.included_title')}
-          </h3>
-          <p className="text-body text-[var(--color-text-secondary)] max-w-2xl mx-auto mt-3 leading-relaxed">
-            {t('pricing.included_desc')}
-          </p>
-        </div> */}
-
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
-          {includedFeatures.map(({ icon: Icon, titleKey, descKey }) => (
-            <div
-              key={titleKey}
-              className="bg-[var(--color-surface-muted)] border border-[var(--color-border)] rounded-lg p-6 transition-colors duration-200 hover:border-[var(--color-primary)]"
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[var(--color-surface)] border border-[var(--color-border)]">
-                  <Icon className="w-4 h-4 text-[var(--color-primary)]" />
-                </span>
-                <span className="text-sm font-bold text-[var(--color-text-primary)]">
-                  {t(titleKey)}
-                </span>
-              </div>
-              <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed">
-                {t(descKey)}
-              </p>
-            </div>
-          ))}
-        </div> */}
-
-        {/* ── 3-Tier Pricing Cards ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6 items-start mb-12 md:mb-20">
-          {plans.map((plan, idx) => (
-            <div
-              key={idx}
-              className={`card-editorial flex flex-col ${
-                plan.popular
-                  ? 'lg:-mt-4 lg:mb-0 border-[var(--color-accent)] shadow-lg ring-1 ring-[var(--color-accent)]/30'
-                  : ''
-              }`}
-            >
-              {plan.popular && (
-                <div className="bg-[var(--color-accent)] text-white text-center font-mono text-[10px] font-bold uppercase tracking-[0.16em] py-2">
-                  {t('common.most_popular')}
-                </div>
-              )}
-
-              <div className="p-6 md:p-8 flex flex-col h-full">
-                <h3 className="editorial-h3 text-[var(--color-text-primary)] mb-1">
-                  {t(plan.nameKey)}
-                </h3>
-                <p className="text-xs text-[var(--color-text-muted)] mb-6">{t(plan.descKey)}</p>
-
-                {/* Price — WingDeck Price Tag spec: 40px / 800, mono numerals */}
-                <div className="mb-6 pb-6 border-b border-[var(--color-border)]">
-                  <span className="font-mono text-3xl md:text-[38px] leading-none font-extrabold text-[var(--color-text-primary)]">
-                    {t(plan.priceKey)}
-                  </span>
-                  {plan.priceKey !== 'pricing.enterprise_price' && (
-                    <span className="block text-xs text-[var(--color-text-muted)] font-medium mt-2">
-                      {t(plan.noteKey)}
-                    </span>
-                  )}
-                </div>
-
-                {plan.includesKey && (
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--color-accent)] mb-3">
-                    {t(plan.includesKey)}
-                  </p>
+        {/* Kartu paket — klik untuk membuka detail (pengganti tabel perbandingan).
+            Saat terbuka: card terpilih + card lain mengerumun ke kolom kiri (sidebar),
+            panel benefit muncul di sebelahnya. Framer Motion `layout` menganimasikan morph. */}
+        <motion.div
+          layout
+          transition={{ layout: { type: 'spring', stiffness: 260, damping: 32 } }}
+          className={`grid grid-cols-1 gap-5 md:gap-6 items-start ${open ? 'lg:grid-cols-12' : 'lg:grid-cols-3'}`}
+        >
+          {plans.map((plan, idx) => {
+            const isOpen = open === plan.tier;
+            return (
+              <motion.div
+                key={plan.tier}
+                layout
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{
+                  duration: 0.5,
+                  delay: idx * 0.08,
+                  ease: [0.22, 1, 0.36, 1],
+                  layout: { type: 'spring', stiffness: 280, damping: 30 },
+                }}
+                onClick={!compact ? () => setOpen(plan.tier) : undefined}
+                className={`relative flex flex-col rounded-[var(--landing-card-radius)] border bg-[var(--color-surface)] transition-shadow duration-300 ${
+                  !compact ? 'cursor-pointer ' : ''
+                }${
+                  isOpen
+                    ? 'border-[var(--color-accent)] shadow-[0_24px_60px_-18px_rgba(196,105,63,0.45)] z-10 order-1 lg:col-start-1 lg:col-span-4'
+                    : compact
+                      ? `border-[var(--color-border)] hover:border-[var(--color-accent)]/60 order-3 lg:col-start-1 lg:col-span-4 ${
+                          plan.popular ? 'ring-1 ring-[var(--color-accent)]/25' : ''
+                        }`
+                      : plan.popular
+                        ? 'border-[var(--color-accent)] shadow-lg ring-1 ring-[var(--color-accent)]/25'
+                        : 'border-[var(--color-border)] hover:border-[var(--color-accent)]/60'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="bg-[var(--color-accent)] text-white text-center font-mono text-[10px] font-bold uppercase tracking-[0.16em] py-2 rounded-t-[calc(var(--landing-card-radius)-1px)]">
+                    {t('common.most_popular')}
+                  </div>
                 )}
 
-                <ul className="space-y-3 mb-8 flex-grow">
-                  {plan.benefits.map((bKey) => (
-                    <li
-                      key={bKey}
-                      className="flex items-start gap-3 text-xs font-medium text-[var(--color-text-secondary)]"
-                    >
-                      <Check className="w-4 h-4 text-[var(--color-success)] shrink-0 mt-0.5" />
-                      <span className="leading-relaxed">{t(bKey)}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <a href={plan.popular ? '#pricing' : '#pricing'} className="mt-auto">
-                  <Button variant={plan.variant} className="w-full">
-                    {t(plan.ctaKey)}
-                  </Button>
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ── Full Spec Comparison ── */}
-        <div className="mb-10 max-w-3xl">
-          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)] mb-3">
-            {t('pricing.comparison_title')}
-          </h3>
-          <p className="editorial-lead">{t('pricing.comparison_desc')}</p>
-        </div>
-
-        <div className="space-y-12">
-          {featureGroups.map((group, gIdx) => (
-            <div key={gIdx}>
-              <h4 className="text-heading-23px text-[var(--color-primary)] mb-4 font-black tracking-tight">
-                {t(group.groupKey)}
-              </h4>
-              <p className="md:hidden text-xs text-[var(--color-text-muted)] mb-2">Swipe to see all plans →</p>
-
-              <div className="overflow-x-auto rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-muted)] shadow-sm">
-                <div className="min-w-[760px]">
-                  <div className="grid grid-cols-4 font-mono text-xs font-bold tracking-wider border-b border-[var(--color-border)] bg-[var(--color-surface)]">
-                    <div className="px-5 py-4 text-[var(--color-text-muted)] uppercase">
-                      {t('pricing.group_header')}
+                <div className="p-6 md:p-7 flex flex-col">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="editorial-h3 text-[var(--color-text-primary)] mb-1">{t(plan.nameKey)}</h3>
+                      <p className="text-xs text-[var(--color-text-muted)]">{t(plan.descKey)}</p>
                     </div>
-                    <div className="px-5 py-4 text-center text-[var(--color-text-secondary)] uppercase border-l border-[var(--color-border)]">
-                      {t('pricing.header_starter')}
-                    </div>
-                    <div className="px-5 py-4 text-center text-[var(--color-primary)] uppercase border-l border-[var(--color-border)] bg-[var(--color-surface-muted)]">
-                      {t('pricing.header_pro')}
-                    </div>
-                    <div className="px-5 py-4 text-center text-[var(--color-text-secondary)] uppercase border-l border-[var(--color-border)]">
-                      {t('pricing.header_enterprise')}
-                    </div>
+                    {isOpen && (
+                      <motion.span
+                        initial={{ scale: 0, rotate: -120 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ type: 'spring', stiffness: 320, damping: 18 }}
+                        className="shrink-0"
+                      >
+                        <Sparkles className="w-5 h-5 text-[var(--color-accent)]" />
+                      </motion.span>
+                    )}
                   </div>
 
-                  {group.rows.map((row, rIdx) => (
-                    <div
-                      key={rIdx}
-                      className="grid grid-cols-4 font-sans text-sm border-b border-[var(--color-border)] last:border-b-0 hover:bg-[var(--color-surface)] transition-colors"
-                    >
-                      <div className="px-5 py-4 font-medium text-[var(--color-text-secondary)]">
-                        {t(row.key)}
-                      </div>
-                      <div className="px-5 py-4 flex items-center justify-center border-l border-[var(--color-border)]">
-                        {renderCellValue(row.starter, t)}
-                      </div>
-                      <div className="px-5 py-4 flex items-center justify-center border-l border-[var(--color-border)] bg-[var(--color-surface)]/50 font-semibold">
-                        {renderCellValue(row.pro, t)}
-                      </div>
-                      <div className="px-5 py-4 flex items-center justify-center border-l border-[var(--color-border)]">
-                        {renderCellValue(row.enterprise, t)}
-                      </div>
-                    </div>
-                  ))}
+                  <div className="mt-5 mb-5 pb-5 border-b border-[var(--color-border)]">
+                    <span className="font-mono text-3xl md:text-[36px] leading-none font-extrabold text-[var(--color-text-primary)]">
+                      {t(plan.priceKey)}
+                    </span>
+                    {plan.priceKey !== 'pricing.enterprise_price' && (
+                      <span className="block text-xs text-[var(--color-text-muted)] font-medium mt-2">{t(plan.noteKey)}</span>
+                    )}
+                  </div>
+
+                  {/* Tombol toggle detail — benefit lengkap & CTA tampil di panel detail */}
+                  <button
+                    onClick={() => setOpen(isOpen ? null : plan.tier)}
+                    aria-expanded={isOpen}
+                    className="group mt-auto inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text-primary)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]/50"
+                  >
+                    {isOpen ? 'Tutup detail' : 'Lihat detail paket'}
+                    <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.35 }}>
+                      <ChevronDown className="w-4 h-4" />
+                    </motion.span>
+                  </button>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              </motion.div>
+            );
+          })}
+
+          {/* Panel benefit — di sebelah sidebar card */}
+          <AnimatePresence mode="popLayout" initial={false}>
+            {activePlan && (
+              <motion.div
+                key={activePlan.tier}
+                initial={{ opacity: 0, x: 48 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 48 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="order-2 lg:col-start-5 lg:col-span-8 lg:row-start-1 lg:row-span-3"
+              >
+                <div className="h-full flex flex-col rounded-[var(--landing-card-radius)] border border-[var(--color-accent)]/40 bg-[var(--color-surface-muted)] p-6 md:p-8 shadow-[0_24px_60px_-18px_rgba(196,105,63,0.3)]">
+                  <div className="flex items-start justify-between gap-4 mb-6 pb-5 border-b border-[var(--color-border)]">
+                    <div>
+                      <h3 className="editorial-h3 text-[var(--color-text-primary)] mb-1">
+                        {t(activePlan.nameKey)}
+                        <span className="font-mono text-sm font-medium text-[var(--color-accent)] ml-3">
+                          {t(activePlan.priceKey)}
+                        </span>
+                      </h3>
+                      {activePlan.includesKey && (
+                        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)]">
+                          {t(activePlan.includesKey)}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => setOpen(null)}
+                      aria-label="Tutup detail"
+                      className="shrink-0 rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] p-2 text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]/50"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="flex-1">
+                    <PlanDetail tier={activePlan.tier} t={t} />
+                  </div>
+
+                  <a href="#pricing" className="mt-8">
+                    <Button variant={activePlan.variant} size="lg" className="w-full">{t(activePlan.ctaKey)}</Button>
+                  </a>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

@@ -17,9 +17,14 @@ const VideoRibbon: React.FC<{ alt: string }> = ({ alt }) => {
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   return (
-    <div className="relative max-w-5xl mx-auto rounded-2xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-surface-muted)]">
+    <div className="relative max-w-5xl mx-auto rounded-2xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-canvas)]">
       {reduced ? (
-        <img src="/assets/five-steps-ribbon.webp" alt={alt} className="w-full h-auto" />
+        <img
+          src="/assets/five-steps-ribbon.webp"
+          alt={alt}
+          className="w-full h-auto"
+          style={{ mixBlendMode: 'multiply' }}
+        />
       ) : (
         <video
           className="w-full h-auto block"

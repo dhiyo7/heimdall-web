@@ -16,7 +16,6 @@ import { DocumentationSection } from './modules/landing/DocumentationSection';
 import { Roadmap } from './modules/landing/Roadmap';
 import { PricingSection } from './modules/landing/PricingSection';
 import { DownloadSection } from './modules/landing/DownloadSection';
-import { CommunityCta } from './modules/landing/CommunityCta';
 import { FAQSection } from './modules/landing/FAQSection';
 import { Footer } from './modules/layout/Footer';
 import { ScrollToTop } from './components/ui/ScrollToTop';
@@ -59,7 +58,6 @@ const LandingPage = () => (
     <Roadmap />
     <PricingSection />
     <DownloadSection />
-    <CommunityCta />
     <FAQSection />
   </>
 );
