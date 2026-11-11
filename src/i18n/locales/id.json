@@ -18,12 +18,51 @@
     "pricing": "Harga",
     "gallery": "Galeri",
     "roadmap": "Peta Jalan",
-    "docs": "Dokumentasi"
+    "docs": "Dokumentasi",
+    "download": "Unduh"
   },
   "hero": {
     "title_part1": "Otomatisasi QA",
     "title_part2": "Berbasis AI",
-    "description": "Tulis skenario pengujian dalam bahasa alami. Heimdall mengubahnya menjadi pengujian yang presisi dan dapat dijalankan untuk Android dan Web — semua dari satu aplikasi desktop. Mulai uji coba gratis 14 hari Anda, tidak perlu kartu kredit."
+    "description": "Tulis skenario pengujian dalam bahasa alami. Heimdall mengubahnya menjadi pengujian yang presisi dan dapat dijalankan untuk Android dan Web — semua dari satu aplikasi desktop. Mulai uji coba gratis 14 hari Anda, tidak perlu kartu kredit.",
+    "trust_line": "Gratis 14 hari · tanpa kartu kredit · batalkan kapan saja",
+    "ecosystem_caption": "Bekerja dengan alat yang sudah Anda pakai"
+  },
+  "everything": {
+    "badge": "Semua dalam satu app",
+    "title": "Semua dalam satu app",
+    "description": "Sepuluh modul desktop yang bekerja sebagai satu alur. Pilih modulnya, lihat yang Anda dapat."
+  },
+  "steps": {
+    "badge": "Alur kerja",
+    "title": "Dari nol ke skenario jalan dalam lima langkah",
+    "description": "Setiap langkah memberi Anda pilihan yang bisa diklik, bukan kotak kosong. Ingin diubah? Cukup bilang dengan bahasa sehari-hari."
+  },
+  "community": {
+    "badge": "Komunitas",
+    "title": "Bergabung dengan grup komunitas Heimdall",
+    "description": "Heimdall masih dalam tahap beta. Grup ini tempat pertama versi baru diumumkan, tempat melaporkan bug, dan tempat berbicara langsung dengan orang yang membangunnya.",
+    "cta": "Buka grup komunitas",
+    "note": "Gratis. Tanpa biaya.",
+    "b1_title": "Dapatkan kabar pembaruan",
+    "b1_desc": "Versi baru dan apa yang berubah, diumumkan pertama di grup.",
+    "b2_title": "Laporkan bug",
+    "b2_desc": "Ada yang rusak atau terlihat aneh? Ceritakan di sana, sertakan langkah dan tangkapan layar.",
+    "b3_title": "Tentukan arah berikutnya",
+    "b3_desc": "Ajukan pertanyaan, bagikan hasil kerja Anda, dan sampaikan yang masih kurang."
+  },
+  "download": {
+    "badge": "Unduh",
+    "title": "Unduh Heimdall Desktop",
+    "description": "Satu aplikasi untuk inspeksi, eksekusi, dan pelaporan. Instalasi singkat, lalu Anda langsung menulis skenario pertama.",
+    "cta": "Unduh Desktop (Beta)",
+    "docs_cta": "Baca panduan instalasi",
+    "note": "Beta build. Panduan langkah demi langkah tersedia di dokumentasi.",
+    "os_macos": "macOS",
+    "os_windows": "Windows",
+    "os_linux": "Linux",
+    "req_title": "Yang dibutuhkan",
+    "req_desc": "Android SDK/ADB untuk target mobile, browser modern untuk target web. Heimdall memeriksa keduanya saat pertama dibuka."
   },
   "quick_links": {
     "docs": "Dok",

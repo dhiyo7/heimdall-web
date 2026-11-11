@@ -93,6 +93,19 @@
     --gradient-accent-2: linear-gradient(rgba(24, 26, 28, 0.9), rgba(14, 16, 17, 0.9));
     --gradient-accent-3: radial-gradient(circle at 90% 20%, rgba(79, 209, 139, 0.2), rgba(0, 0, 0, 0), rgba(32, 116, 72, 0.22), rgba(13, 16, 15, 0.94));
     --gradient-accent-4: linear-gradient(135deg, rgba(255, 107, 112, 0.08), rgba(10, 11, 12, 0.7));
+
+    /* ===== Landing editorial tokens (SPEC-41, additive) ===== */
+    --color-ink: #0b0b0c;
+    --color-ink-soft: #1a1a1c;
+    --color-pill-glass: rgba(255, 255, 255, 0.72);
+    --color-pill-glass-border: rgba(10, 10, 12, 0.08);
+    --color-dark-section: #0b0b0c;
+    --color-dark-section-text: #f5f5f3;
+    --color-dark-section-muted: #9a9a9d;
+    --color-node-line: rgba(217, 119, 87, 0.35);
+    --spacing-editorial: clamp(56px, 8vw, 112px);
+    --radius-pill: 9999px;
+    --landing-card-radius: 14px;
   }
 
   .dark {
@@ -122,6 +135,13 @@
     --shadow-inner-2: rgba(255, 255, 255, 0.04) 0px 1px 0px 0px inset;
 
     --gradient-hero: radial-gradient(circle at 50% 0px, rgba(255, 107, 112, 0.04), rgba(8, 9, 10, 0.95));
+
+    /* Landing editorial tokens — dark overrides */
+    --color-ink: #f5f5f3;
+    --color-ink-soft: #dedede;
+    --color-pill-glass: rgba(24, 25, 27, 0.72);
+    --color-pill-glass-border: rgba(255, 255, 255, 0.1);
+    --color-node-line: rgba(255, 107, 112, 0.35);
   }
 
   html {
@@ -231,6 +251,106 @@
     margin-right: auto;
   }
 
+  /* ── SPEC-41 landing editorial utilities ── */
+  .section-editorial {
+    padding-top: var(--spacing-editorial);
+    padding-bottom: var(--spacing-editorial);
+  }
+
+  .editorial-h1 {
+    @apply font-extrabold;
+    font-size: clamp(38px, 7.2vw, 84px);
+    line-height: 1.03;
+    letter-spacing: -0.035em;
+  }
+
+  .editorial-h2 {
+    @apply font-extrabold;
+    font-size: clamp(28px, 4.2vw, 50px);
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+  }
+
+  .editorial-h3 {
+    @apply font-bold;
+    font-size: clamp(19px, 2.1vw, 25px);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  .editorial-lead {
+    @apply font-normal text-[var(--color-text-secondary)];
+    font-size: clamp(15px, 1.35vw, 18px);
+    line-height: 1.62;
+    max-width: 62ch;
+  }
+
+  .card-editorial {
+    border-radius: var(--landing-card-radius);
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    overflow: hidden;
+  }
+
+  .pill-glass {
+    background: var(--color-pill-glass);
+    border: 1px solid var(--color-pill-glass-border);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+  }
+
+  .section-dark {
+    background: var(--color-dark-section);
+    color: var(--color-dark-section-text);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 32s linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes orbit-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes hub-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.035); }
+  }
+
+  @keyframes node-flow {
+    to { stroke-dashoffset: -240; }
+  }
+
+  .motion-orbit { animation: orbit-spin 60s linear infinite; transform-origin: center; }
+  .motion-counter-orbit { animation: orbit-spin 60s linear infinite reverse; transform-origin: center; }
+  .motion-hub { animation: hub-pulse 3s ease-in-out infinite; transform-origin: center; }
+  .motion-flow { stroke-dasharray: 6 14; animation: node-flow 5s linear infinite; }
+
+  /* Aset isometrik SPEC-41: varian terang/gelap mengikuti class `dark` pada <html> */
+  .illu-dark { display: none; }
+  .dark .illu-light { display: none; }
+  .dark .illu-dark { display: block; }
+
+  /* Hormati preferensi pengguna (aksesibilitas) */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track,
+    .motion-orbit,
+    .motion-counter-orbit,
+    .motion-hub,
+    .motion-flow {
+      animation: none !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+
   /* Responsive responsive helpers */
   .responsive-text-h1 { @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[var(--font-size-h1)] font-extrabold; line-height: 1.1; }
   .responsive-text-h2 { @apply text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-[var(--font-size-h2)] font-extrabold; line-height: 1.1; }
@@ -265,9 +385,11 @@
 }
 
 /* ===== Global overflow safety ===== */
-html, body {
+/* CATATAN: hanya `body` yang diberi overflow-x. Bila dipasang di `html`,
+   `position: sticky` pada header berhenti bekerja di Chrome/Safari
+   (scroll container berpindah ke root). */
+body {
   overflow-x: hidden;
-  max-width: 100vw;
 }
 
 /* ===== Fix line-height for responsive headings (avoid fixed px line-height clipping) ===== */

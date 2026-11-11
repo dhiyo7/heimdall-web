@@ -1,5 +1,4 @@
 import React from 'react';
-import { WindowCard } from '../../components/ui/WindowCard';
 import { Button } from '../../components/ui/Button';
 import {
   Check,
@@ -174,23 +173,18 @@ export const PricingSection: React.FC = () => {
   return (
     <section
       id="pricing"
-      className="py-14 md:py-20 border-b border-[var(--color-border)] bg-[var(--color-background)]"
+      className="section-editorial border-b border-[var(--color-border)] bg-[var(--color-background)]"
     >
       <div className="container-constrained">
         {/* ── Section Header ── */}
-        <div className="text-center mb-4">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-semibold text-[var(--color-accent)]">
+        <div className="max-w-3xl mb-10 md:mb-14">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-semibold text-[var(--color-accent)] mb-5">
             {t('pricing.badge')}
           </span>
-        </div>
-
-        <div className="text-center mb-12 md:mb-20">
-          <h2 className="responsive-text-h2 text-[var(--color-text-primary)] mb-6">
+          <h2 className="editorial-h2 text-[var(--color-text-primary)] mb-4">
             {t('pricing.title_part1')}
           </h2>
-          <p className="text-body text-[var(--color-text-secondary)] max-w-2xl mx-auto leading-relaxed">
-            {t('pricing.description')}
-          </p>
+          <p className="editorial-lead">{t('pricing.description')}</p>
         </div>
 
         {/* ── Benefit band: what every prospect gets ── */}
@@ -228,36 +222,39 @@ export const PricingSection: React.FC = () => {
         </div> */}
 
         {/* ── 3-Tier Pricing Cards ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12 md:mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6 items-start mb-12 md:mb-20">
           {plans.map((plan, idx) => (
-            <WindowCard
+            <div
               key={idx}
-              title={t(plan.nameKey)}
-              variant={plan.popular ? 'highlight' : 'default'}
-              className="flex flex-col h-full"
+              className={`card-editorial flex flex-col ${
+                plan.popular
+                  ? 'lg:-mt-4 lg:mb-0 border-[var(--color-accent)] shadow-lg ring-1 ring-[var(--color-accent)]/30'
+                  : ''
+              }`}
             >
-              <div className="p-8 flex flex-col h-full relative">
-                {plan.popular && (
-                  <span className="absolute top-4 right-4 inline-block px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-[var(--color-accent)] text-white rounded-sm">
-                    {t('common.most_popular')}
-                  </span>
-                )}
+              {plan.popular && (
+                <div className="bg-[var(--color-accent)] text-white text-center font-mono text-[10px] font-bold uppercase tracking-[0.16em] py-2">
+                  {t('common.most_popular')}
+                </div>
+              )}
+
+              <div className="p-6 md:p-8 flex flex-col h-full">
+                <h3 className="editorial-h3 text-[var(--color-text-primary)] mb-1">
+                  {t(plan.nameKey)}
+                </h3>
+                <p className="text-xs text-[var(--color-text-muted)] mb-6">{t(plan.descKey)}</p>
 
                 {/* Price — WingDeck Price Tag spec: 40px / 800, mono numerals */}
-                <div className="mb-6">
-                  <span className="font-mono text-3xl md:text-[40px] leading-none font-extrabold text-[var(--color-text-muted)]">
+                <div className="mb-6 pb-6 border-b border-[var(--color-border)]">
+                  <span className="font-mono text-3xl md:text-[38px] leading-none font-extrabold text-[var(--color-text-primary)]">
                     {t(plan.priceKey)}
                   </span>
                   {plan.priceKey !== 'pricing.enterprise_price' && (
-                    <span className="block text-xs text-[var(--color-success)] font-medium mt-2">
+                    <span className="block text-xs text-[var(--color-text-muted)] font-medium mt-2">
                       {t(plan.noteKey)}
                     </span>
                   )}
                 </div>
-
-                <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed mb-6">
-                  {t(plan.descKey)}
-                </p>
 
                 {plan.includesKey && (
                   <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--color-accent)] mb-3">
@@ -277,22 +274,22 @@ export const PricingSection: React.FC = () => {
                   ))}
                 </ul>
 
-                <Button variant={plan.variant} className="w-full mt-auto">
-                  {t(plan.ctaKey)}
-                </Button>
+                <a href={plan.popular ? '#pricing' : '#pricing'} className="mt-auto">
+                  <Button variant={plan.variant} className="w-full">
+                    {t(plan.ctaKey)}
+                  </Button>
+                </a>
               </div>
-            </WindowCard>
+            </div>
           ))}
         </div>
 
         {/* ── Full Spec Comparison ── */}
-        <div className="mb-8">
-          <h3 className="text-2xl md:text-3xl font-extrabold text-[var(--color-text-primary)] mb-4 text-center">
+        <div className="mb-10 max-w-3xl">
+          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--color-accent)] mb-3">
             {t('pricing.comparison_title')}
           </h3>
-          <p className="text-body text-[var(--color-text-secondary)] text-center max-w-xl mx-auto leading-relaxed">
-            {t('pricing.comparison_desc')}
-          </p>
+          <p className="editorial-lead">{t('pricing.comparison_desc')}</p>
         </div>
 
         <div className="space-y-12">

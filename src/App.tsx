@@ -6,13 +6,17 @@ import { RequireRole } from './modules/console/RequireRole';
 import { ToastProvider } from './modules/console/Toast';
 import { Navbar } from './modules/layout/Navbar';
 import { Hero } from './modules/landing/Hero';
-import { Features } from './modules/landing/Features';
-import { MockupGallery } from './modules/landing/MockupGallery';
-import { AboutSection } from './modules/landing/AboutSection';
+import { TrustStrip } from './modules/landing/TrustStrip';
+import { EverythingInOneApp } from './modules/landing/EverythingInOneApp';
+import { FiveSteps } from './modules/landing/FiveSteps';
+import { FeatureStack } from './modules/landing/FeatureStack';
+import { DarkNodeSection } from './modules/landing/DarkNodeSection';
 import { VisualIntelligenceSection } from './modules/landing/VisualIntelligenceSection';
 import { DocumentationSection } from './modules/landing/DocumentationSection';
 import { Roadmap } from './modules/landing/Roadmap';
 import { PricingSection } from './modules/landing/PricingSection';
+import { DownloadSection } from './modules/landing/DownloadSection';
+import { CommunityCta } from './modules/landing/CommunityCta';
 import { FAQSection } from './modules/landing/FAQSection';
 import { Footer } from './modules/layout/Footer';
 import { ScrollToTop } from './components/ui/ScrollToTop';
@@ -44,13 +48,18 @@ const DOCS_URL = 'https://docs.theheimdall.com/';
 const LandingPage = () => (
   <>
     <Hero />
-    <Features />
-    <MockupGallery />
-    <AboutSection />
+    <TrustStrip />
+    <EverythingInOneApp />
+    <FiveSteps />
+    <FeatureStack />
+    <DarkNodeSection />
+    {/* <MockupGallery /> */}
     <VisualIntelligenceSection />
     <DocumentationSection />
     <Roadmap />
     <PricingSection />
+    <DownloadSection />
+    <CommunityCta />
     <FAQSection />
   </>
 );

@@ -1,66 +1,76 @@
 import React, { useState } from 'react';
 import { faqData } from './faqData';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useI18n } from '../../i18n/I18nContext';
 
+/** Accordion "Questions" (referensi) — judul kiri, tanda + di kanan, panel halus. */
 export const FAQSection: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
   const { t } = useI18n();
 
   return (
-    <section id="faq" className="py-14 md:py-20 bg-[var(--color-background)] border-b border-[var(--color-border)] transition-colors duration-300">
+    <section
+      id="faq"
+      className="section-editorial bg-[var(--color-background)] border-b border-[var(--color-border)] transition-colors duration-300"
+    >
       <div className="container-constrained">
-        <div className="text-center mb-10 md:mb-16">
-          <h2 className="responsive-text-h2 text-[var(--color-text-primary)] mb-6">
-            {t('faq.title_part1')} <span className="text-[var(--color-accent)]">{t('faq.title_part2')}</span>
-          </h2>
-          <p className="text-body text-[var(--color-text-secondary)] max-w-2xl mx-auto leading-relaxed">
-            {t('faq.description')}
-          </p>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
+          <div className="lg:col-span-1">
+            <h2 className="editorial-h2 text-[var(--color-text-primary)] mb-4">
+              {t('faq.title_part1')}{' '}
+              <span className="text-[var(--color-accent)]">{t('faq.title_part2')}</span>
+            </h2>
+            <p className="text-body text-[var(--color-text-secondary)] leading-relaxed">
+              {t('faq.description')}
+            </p>
+          </div>
 
-        <div className="space-y-2">
-          {faqData.map((faq, index) => (
-            <div
-              key={index}
-              className="bg-[var(--color-surface-muted)] border border-[var(--color-border)] rounded-lg overflow-hidden"
-            >
-              <button
-                className="w-full px-5 py-4 text-left flex items-center justify-between bg-transparent hover:bg-[var(--color-surface)] transition-colors duration-200"
-                onClick={() => setOpenIndex(index === openIndex ? null : index)}
-                aria-expanded={openIndex === index}
-              >
-                <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <HelpCircle className="w-5 h-5 text-[var(--color-accent)] shrink-0" />
-                  <h3 className="text-sm sm:text-base md:text-[23px] text-[var(--color-text-secondary)] font-semibold leading-snug break-words">
-                    {t(faq.questionKey)}
-                  </h3>
-                </div>
-                <ChevronDown
-                  className={`w-5 h-5 text-[var(--color-text-muted)] shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`}
-                />
-              </button>
-
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
+          <div className="lg:col-span-2 divide-y divide-[var(--color-border)] border-t border-[var(--color-border)]">
+            {faqData.map((faq, index) => {
+              const open = openIndex === index;
+              return (
+                <div key={index}>
+                  <button
+                    className="w-full py-5 text-left flex items-start justify-between gap-6 bg-transparent group"
+                    onClick={() => setOpenIndex(open ? null : index)}
+                    aria-expanded={open}
                   >
-                    <div className="px-5 py-4 border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-                      <p className="text-body text-[var(--color-text-secondary)] leading-relaxed">
-                        {t(faq.answerKey)}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
+                    <span
+                      className={`text-base md:text-lg font-semibold leading-snug transition-colors ${
+                        open
+                          ? 'text-[var(--color-text-primary)]'
+                          : 'text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)]'
+                      }`}
+                    >
+                      {t(faq.questionKey)}
+                    </span>
+                    <Plus
+                      className={`w-5 h-5 shrink-0 mt-0.5 text-[var(--color-text-muted)] transition-transform duration-300 ${
+                        open ? 'rotate-45 text-[var(--color-accent)]' : ''
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {open && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.26, ease: [0.4, 0, 0.2, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pb-6 pr-10 text-body text-[var(--color-text-secondary)] leading-relaxed max-w-[68ch]">
+                          {t(faq.answerKey)}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

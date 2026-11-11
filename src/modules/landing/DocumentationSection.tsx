@@ -1,55 +1,51 @@
 import React from 'react';
-import { WindowCard } from '../../components/ui/WindowCard';
+import { Eye, Database } from 'lucide-react';
 import { useI18n } from '../../i18n/I18nContext';
 
+/** "Pengalaman Profesional, Tanpa Ribet" — dua kartu, kini bergaya editorial dan memakai i18n. */
 export const DocumentationSection: React.FC = () => {
   const { t } = useI18n();
+
+  const cards = [
+    { icon: Eye, titleKey: 'docs_section.card1_title', descKey: 'docs_section.card1_desc' },
+    { icon: Database, titleKey: 'docs_section.card2_title', descKey: 'docs_section.card2_desc' },
+  ];
 
   return (
     <section
       id="docs"
-      className="py-12 md:py-16 border-b border-[var(--color-border)] bg-[var(--color-background)] transition-colors duration-300"
+      className="section-editorial border-b border-[var(--color-border)] bg-[var(--color-background)]"
     >
       <div className="container-constrained">
-        <div className="text-center mb-10 md:mb-16">
-          <h2 className="font-extrabold responsive-text-h2 text-[var(--color-text-primary)] mb-6 tracking-tight">
+        <div className="max-w-3xl mb-10 md:mb-14">
+          <h2 className="editorial-h2 text-[var(--color-text-primary)] mb-4">
             {t('docs_section.title')}
           </h2>
-          <p className="text-lg text-[var(--color-text-secondary)] max-w-xl mx-auto">
-            {t('docs_section.description')}
-          </p>
+          <p className="editorial-lead">{t('docs_section.description')}</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-stretch">
-          {/* Left Column */}
-          <WindowCard title="live_preview.exe" className="h-full">
-            <div className="p-5 space-y-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-[var(--color-primary)]/10 rounded-md border border-[var(--color-border)]">
-                  <svg className="w-6 h-6 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542 7z"></path></svg>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6">
+          {cards.map((card) => {
+            const Icon = card.icon;
+            return (
+              <div
+                key={card.titleKey}
+                className="card-editorial bg-[var(--color-surface)] p-6 md:p-8 flex gap-5 hover:border-[var(--color-accent)]/40 transition-colors"
+              >
+                <div className="p-3 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 shrink-0 h-fit">
+                  <Icon className="w-5 h-5 text-[var(--color-accent)]" />
                 </div>
-                <h3 className="font-sans font-bold text-lg text-[var(--color-text-primary)]">Live Runner & Mirroring</h3>
-              </div>
-              <p className="font-sans text-sm text-[var(--color-text-secondary)] leading-relaxed">
-                No more guessing what happens on the device screen. With <strong>Floating Live Preview</strong> and <strong>Interactive Mirroring</strong>, you can see execution in real time. Touch or type from your laptop, and watch how the app on your phone responds without delay.
-              </p>
-            </div>
-          </WindowCard>
-
-          {/* Right Column */}
-          <WindowCard title="test_management.db" className="h-full">
-            <div className="p-5 space-y-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-[var(--color-primary)]/10 rounded-md border border-[var(--color-border)]">
-                  <svg className="w-6 h-6 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                <div>
+                  <h3 className="editorial-h3 text-[var(--color-text-primary)] mb-2.5">
+                    {t(card.titleKey)}
+                  </h3>
+                  <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+                    {t(card.descKey)}
+                  </p>
                 </div>
-                <h3 className="font-sans font-bold text-lg text-[var(--color-text-primary)]">Unified Test Management</h3>
               </div>
-              <p className="font-sans text-sm text-[var(--color-text-secondary)] leading-relaxed">
-                Goodbye to cluttered text files. Our <strong>Test Management System (TMS)</strong> organizes all your scenarios in an easy-to-read hierarchy. Features a multi-tab Script Editor like a professional IDE with auto-save functionality.
-              </p>
-            </div>
-          </WindowCard>
+            );
+          })}
         </div>
       </div>
     </section>

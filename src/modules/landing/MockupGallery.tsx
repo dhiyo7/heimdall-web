@@ -21,29 +21,44 @@ const images = [
   }
 ];
 
+/** "Profesional Antarmuka" — galeri tangkapan layar, kini mengikuti tata letak editorial. */
 export const MockupGallery: React.FC = () => {
   const { t } = useI18n();
 
   return (
-    <section id="gallery" className="pt-section pb-section border-b border-[var(--color-border)]">
+    <section
+      id="gallery"
+      className="section-editorial border-b border-[var(--color-border)] bg-[var(--color-background)]"
+    >
       <div className="container-constrained">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="responsive-text-h2 text-[var(--color-text-primary)] mb-6 tracking-tight">
-            {t('gallery.title_part1')} <span className="text-[var(--color-accent)]">{t('gallery.title_part2')}</span>
+        <div className="max-w-3xl mb-10 md:mb-14">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] text-xs font-semibold text-[var(--color-accent)] mb-5">
+            {t('visual_intel.badge')}
+          </span>
+          <h2 className="editorial-h2 text-[var(--color-text-primary)] mb-4">
+            {t('gallery.title_part1')}{' '}
+            <span className="text-[var(--color-accent)]">{t('gallery.title_part2')}</span>
           </h2>
-          <p className="text-body text-[var(--color-text-secondary)] leading-relaxed">
-            {t('gallery.description')}
-          </p>
+          <p className="editorial-lead">{t('gallery.description')}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
           {images.map((img, idx) => (
-            <WindowCard key={idx} title={img.alt} noPadding className="h-full" variant="highlight">
+            <WindowCard
+              key={idx}
+              title={img.alt}
+              noPadding
+              className={idx === 0 ? 'md:col-span-2' : ''}
+              variant={idx === 0 ? 'highlight' : 'default'}
+            >
               <img
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
-                className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
+                decoding="async"
+                width={1280}
+                height={800}
+                className="w-full h-auto object-cover"
               />
             </WindowCard>
           ))}

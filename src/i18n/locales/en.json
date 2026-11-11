@@ -18,12 +18,51 @@
     "pricing": "Pricing",
     "gallery": "Gallery",
     "roadmap": "Roadmap",
-    "docs": "Docs"
+    "docs": "Docs",
+    "download": "Download"
   },
   "hero": {
     "title_part1": "AI-Powered QA",
     "title_part2": "Automation",
-    "description": "Write test scenarios in natural language. Heimdall transforms them into precise, executable tests for Android and Web — all from one desktop app. Start your 14-day free trial, no credit card required."
+    "description": "Write test scenarios in natural language. Heimdall transforms them into precise, executable tests for Android and Web — all from one desktop app. Start your 14-day free trial, no credit card required.",
+    "trust_line": "14 days free · no credit card · cancel anytime",
+    "ecosystem_caption": "Works with the tools you already use"
+  },
+  "everything": {
+    "badge": "Everything in one app",
+    "title": "Everything in one app",
+    "description": "Ten desktop modules working as a single flow. Pick a module and see what you get."
+  },
+  "steps": {
+    "badge": "How it works",
+    "title": "From idea to a running scenario in five steps",
+    "description": "Every step gives you choices to tap, not a blank box to fill. Want something changed? Say it in plain words."
+  },
+  "community": {
+    "badge": "Community",
+    "title": "Join the Heimdall community group",
+    "description": "Heimdall is in beta. The group is where new versions are announced first, where you can report bugs and talk to the people making it.",
+    "cta": "Open the community group",
+    "note": "Free. No cost.",
+    "b1_title": "Hear about updates",
+    "b1_desc": "New versions and what changed, posted in the group first.",
+    "b2_title": "Report bugs",
+    "b2_desc": "Something broke or looks off? Tell us there, with what you did and a screenshot.",
+    "b3_title": "Shape what's next",
+    "b3_desc": "Ask questions, share what you make and tell us what's missing."
+  },
+  "download": {
+    "badge": "Download",
+    "title": "Download Heimdall Desktop",
+    "description": "One app for inspection, execution and reporting. A short install, then you write your first scenario.",
+    "cta": "Download Desktop (Beta)",
+    "docs_cta": "Read the install guide",
+    "note": "Beta build. Step-by-step instructions live in the documentation.",
+    "os_macos": "macOS",
+    "os_windows": "Windows",
+    "os_linux": "Linux",
+    "req_title": "What you need",
+    "req_desc": "Android SDK/ADB for mobile targets, a modern browser for web targets. Heimdall checks both on first launch."
   },
   "quick_links": {
     "docs": "Docs",
