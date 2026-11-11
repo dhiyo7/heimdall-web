@@ -287,8 +287,8 @@ const ScriptsPage: React.FC = () => {
   const listError = scriptsApi.error || foldersApi.error;
 
   return (
-    <div className="space-y-4">
-      <header className="flex flex-wrap items-start justify-between gap-4">
+    <div className="flex flex-col gap-4 md:h-[calc(100dvh-6.5rem)]">
+      <header className="flex shrink-0 flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="font-sans text-xl font-extrabold tracking-tight text-[var(--color-text-primary)]">
             Script
@@ -303,7 +303,7 @@ const ScriptsPage: React.FC = () => {
         </Button>
       </header>
 
-      <div className="flex flex-wrap items-end gap-3">
+      <div className="flex shrink-0 flex-wrap items-end gap-3">
         <div className="min-w-[180px] flex-1">
           <label htmlFor="script-workspace" className={LABEL}>
             Workspace
@@ -345,10 +345,10 @@ const ScriptsPage: React.FC = () => {
           </Button>
         </div>
       ) : (
-        <div className="flex gap-4">
+        <div className="flex min-h-0 flex-1 gap-4">
           {/* Folder tree: kolom tetap di desktop, drawer di <768px */}
-          <aside className="hidden w-60 shrink-0 md:block">
-            <WindowCard title="Folder" contentClassName="p-2">
+          <aside className="hidden w-60 shrink-0 flex-col md:flex">
+            <WindowCard title="Folder" contentClassName="p-2 overflow-y-auto min-h-0">
               {foldersApi.loading ? (
                 <p className="px-2 py-3 font-mono text-xs text-[var(--color-text-muted)]">memuat folder…</p>
               ) : (
@@ -364,7 +364,7 @@ const ScriptsPage: React.FC = () => {
             </WindowCard>
           </aside>
 
-          <div className="min-w-0 flex-1 space-y-3">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3">
             <BreadcrumbBar path={folderPath} onNavigate={setFolderPath} />
 
             <ScriptToolbar
@@ -379,7 +379,7 @@ const ScriptsPage: React.FC = () => {
               onOpenTree={() => setTreeOpen(true)}
             />
 
-            <WindowCard title={folderPath ?? 'Semua script'} contentClassName="p-3">
+            <WindowCard title={folderPath ?? 'Semua script'} className="min-h-0 flex-1" contentClassName="p-3 overflow-y-auto">
               {scriptsApi.loading ? (
                 <p className="p-2 font-mono text-sm text-[var(--color-text-muted)]">memuat script…</p>
               ) : visibleScripts.length === 0 && childFolders.length === 0 ? (
